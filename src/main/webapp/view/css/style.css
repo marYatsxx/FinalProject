@@ -1,0 +1,153 @@
+.error{
+    color: red;
+    font:normal 12px/1.6em Georgia, "Times New Roman", Times, serif
+}
+body {
+    margin:0; padding:0;
+    color:#5f5f5f; font:normal 14px/1.8em Georgia, "Times New Roman", Times, serif;
+}
+html{height: 100%}
+html, .main {
+    padding:0; margin:0; background:#fff
+}
+.clr {
+    clear:both; padding:0; margin:0; width:100%;
+    font-size:0px; line-height:0px
+}
+h1 {
+    margin:0; padding:64px 40px;
+    color:black; font:normal 32px/1.2em Georgia, "Times New Roman", Times, serif
+}
+h1 a, h1 a:hover {
+    color:white; text-decoration:none
+}
+h2 {
+    font:normal 24px Georgia, "Times New Roman", Times, serif;
+    color:#323a3f; padding:8px 0; margin:8px 0
+}
+p {
+    margin:8px 0; padding:0 0 8px 0;
+    font:normal 14px/1.8em Georgia, "Times New Roman", Times, serif
+}
+a {
+    color:#30588c; text-decoration:underline
+}
+
+.content{
+    padding-bottom: 20px;
+}
+
+.content_resize {
+    margin:0 auto; padding:0 40px; width:960px;
+}
+
+.info{
+    float: left;
+    margin-left: 20px;
+    text-align: left;
+    font:normal 14px/1.8em Georgia, "Times New Roman", Times, serif;
+}
+
+.buttons{
+    float: right;
+    margin-right: 20px;
+}
+
+.buttons a, #button{
+    background-color: #30588c;
+    border: none;
+    color: white;
+    padding: 10px 30px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font:normal 16px/1.8em Georgia, "Times New Roman", Times, serif;
+}
+
+#button{
+    padding: 5px 30px;
+}
+
+.header {
+    background-image: url("view/images/header.png");
+    background-size:cover
+}
+.header_resize {
+    margin:0 auto; padding:0; width:1000px; height:200px
+}
+.header .logo { height:180px; float:left;}
+.menu_nav { 
+    height:72px; float:right; width:auto; padding-top:110px
+}
+.menu_nav ul { width:auto; list-style:none}
+.menu_nav ul li { margin:0 1px; float:left}
+.menu_nav ul li a { 
+    display:block; margin:0; padding:13px 9px 13px 0; color:#fff;
+    text-decoration:none; text-transform:uppercase}
+.menu_nav ul li a span { padding: 15px}
+.menu_nav ul li a:hover, .menu_nav ul li.active a {
+    background:url("view/images/menu_a.png") no-repeat right top; color:darkblue
+}
+.menu_nav ul li a:hover span, .menu_nav ul li.active a span {
+    background-color: aliceblue; opacity: 0.8;
+}
+.content_resize {padding:16px 40px 16px 0; width:1000px;
+    margin-bottom: -10px;
+}
+.content img {padding:4px; border:1px solid #bbb}
+.content img.ilf {margin-right:16px; float:left}
+.content .mainbar {
+    float:left; width:740px; background-color:aliceblue;
+    margin-left: 20px;
+}
+.content .mainbar{
+    padding:24px 23px 24px 40px;
+}
+.content .mainbar .article, .content .sidebar .gadget {margin:0; padding:0 0 16px 0}
+
+.content h1{
+    text-align: center; padding: 10px;
+}
+p{
+    text-align: center; padding: 5px;
+}
+.content form{
+    text-align: center; margin-bottom: 30px;
+    font:normal 16px/1.8em Georgia, "Times New Roman", Times, serif
+}
+
+.article h2{
+    text-align: center;
+}
+
+.sidebar { float:right; width:150px; margin-left: 20px;}
+ul.sb_menu, ul.ex_menu {margin:0; padding:0; list-style:none}
+ul.sb_menu li, ul.ex_menu li {margin:0}
+ul.sb_menu li {padding:4px 0}
+ul.ex_menu li {padding:4px 0 8px}
+ul.sb_menu li a, ul.ex_menu li a {text-decoration:none}
+ul.sb_menu li a:hover, ul.ex_menu li a:hover {font-weight:bold}
+ul.sb_menu li a:hover {text-decoration:underline}
+ul.ex_menu li a:hover {text-decoration:none}
+.content .mainbar .comment {margin:0;padding:16px 0 0 0}
+.content .mainbar .comment img.userpic {
+    border:1px solid #dedede; margin:10px 16px 0 0; padding:0; float:left}
+
+.wrap {
+    min-height: 100%;
+    margin-bottom: -60px;
+}
+.wrap:after{
+    content: "";
+    display: block;
+}
+.footer,.wrap:after{
+    height: 60px;
+}
+.footer {
+    background:url("view/images/header.png"); background-size:cover;
+}
+.footer p.lf {
+    color:azure; text-align: center;
+    margin:0;padding:4px 0;width:auto;line-height:1.5em
+}
