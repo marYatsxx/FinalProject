@@ -16,14 +16,13 @@ import java.util.Optional;
 public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     private static final Logger LOGGER = LogManager.getLogger(OrderDaoImpl.class);
 
-    private static final String UPDATE_ORDER = "UPDATE `order` SET price = ?, date = ?, client_id = ? WHERE order_id = ?;";
     private static final String FIND_ALL_ORDERS = "SELECT * FROM `order`;";
     private static final String CREATE_ORDER = "INSERT INTO `order` VALUES(default, ?, ?, ?);";
     private static final String REMOVE_ORDER_BY_ID = "DELETE FROM `order` WHERE order_id = ?;";
     private static final String FIND_ORDER_BY_ID = "SELECT * FROM `order` WHERE order_id = ?;";
     private static final String FIND_ORDER_BY_CLIENT_ID = "SELECT * FROM `order` WHERE client_id = ?;";
 
-    public OrderDaoImpl(Connection connection, Builder<Order> builder){
+    public OrderDaoImpl(Connection connection, Builder<Order> builder) {
         super(connection, builder);
     }
 
@@ -44,7 +43,7 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
 
     @Override
     public boolean removeById(int id) throws DaoException {
-        if(!isPresent(id)){
+        if (!isPresent(id)) {
             LOGGER.info("Can not remove: Order with id " + id + " is not found");
             return false;
         }
@@ -68,16 +67,5 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
         executeUpdate(CREATE_ORDER, price, date, clientId);
         LOGGER.info("Order has been created successfully");
         return true;
-    }
-
-    @Override
-    public boolean update(Order item) throws DaoException {
-        int id = item.getId();
-        double price = item.getPrice();
-        LocalDate date = item.getDate();
-        int clientId = item.getClientId();
-        executeUpdate(UPDATE_ORDER, price, date, clientId, id);
-        LOGGER.info("Order update has been executed successfully");
-        return false;
     }
 }

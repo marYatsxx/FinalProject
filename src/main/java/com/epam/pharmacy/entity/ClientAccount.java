@@ -12,6 +12,10 @@ public class ClientAccount implements Identifiable, Serializable {
     private Integer userId;
     private double balance;
 
+    public ClientAccount(double balance){
+        this.balance = balance;
+    }
+
     public ClientAccount(Integer userId, double balance) {
         this.userId = userId;
         this.balance = balance;

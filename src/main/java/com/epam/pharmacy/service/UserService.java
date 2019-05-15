@@ -1,21 +1,17 @@
 package com.epam.pharmacy.service;
 
 import com.epam.pharmacy.dao.UserDao;
-import com.epam.pharmacy.dao.connectionpool.ConnectionPool;
 import com.epam.pharmacy.dao.factory.DaoFactory;
 import com.epam.pharmacy.entity.User;
-import com.epam.pharmacy.exception.ConnectionPoolException;
 import com.epam.pharmacy.exception.DaoException;
 import com.epam.pharmacy.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
 import java.util.Optional;
 
 public class UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
-    private Connection connection;
     private DaoFactory factory = new DaoFactory();
 
     public Optional<User> login(String login, String password) throws ServiceException {
@@ -39,8 +35,17 @@ public class UserService {
     public boolean create(User user) throws ServiceException {
         try {
             UserDao userDao = factory.getUserDao();
+            String login = user.getLogin();
+            if(user.getId()==null){
+                Optional<User> optionalUser = userDao.findByLogin(login);
+                if(optionalUser.isPresent()) {
+                    LOGGER.info("User with login " + login + " already exists. Creation will be skipped");
+                    return false;
+                }
+            }
             return userDao.create(user);
         } catch (DaoException e){
+            e.printStackTrace();
             throw new ServiceException(e.getMessage());
         }
     }
@@ -53,4 +58,6 @@ public class UserService {
             throw new ServiceException(e.getMessage());
         }
     }
+
+
 }

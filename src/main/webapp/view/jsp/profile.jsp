@@ -41,12 +41,11 @@
                         </div>
                         <div class="buttons">
                             <c:if test="${sessionScope.user_role_id==3}">
-                                <a href="pharmacy?command=register">Recharge the balance</a>
-                                <input type="button" name="balance" value="Recharge the balance">
+                                <a href="pharmacy?command=rechargeBalance">Recharge the balance</a>
                                 <br/><br/>
                             </c:if>
-                            <a href="pharmacy?command=register">Edit profile</a>
-                            <a href="pharmacy?command=register">Show history</a>
+                            <a href="pharmacy?command=editProfile">Edit profile</a>
+                            <a href="pharmacy?command=showHistory">Show history</a>
                         </div>
                     </div>
                 </div>

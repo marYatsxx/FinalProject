@@ -21,8 +21,7 @@ public class RegisterCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(RegisterCommand.class);
     private static final String REPEAT_PASSWORD = "repeat_password";
     private static final String USER_REGISTRATION_ERROR = "Can not register user. Login already exists";
-    private static final String CLIENT_REGISTRATION_ERROR = "Can not create client account: user with this " +
-            "login already exists";
+    private static final String CLIENT_REGISTRATION_ERROR = "Can not create client account";
     private static final String PASSWORD_ERROR = "Password and repeated password not equal";
     private static final String REDIRECT_VIEW_PROFILE = "pharmacy?command=viewProfile";
     private static final String FORWARD_REGISTER = "/view/jsp/registration.jsp";
@@ -39,15 +38,6 @@ public class RegisterCommand implements Command {
             factory.startTransaction();
             HttpSession session = request.getSession();
             String login = request.getParameter(User.LOGIN);
-            UserService userService = factory.getUserService();
-            Optional<User> existingUser = userService.findUserByLogin(login);
-            if(existingUser.isPresent()){
-                LOGGER.error("Error: can not creat user. User with login " + existingUser.get().getLogin() + " already exists");
-                session.setAttribute("registration_error", USER_REGISTRATION_ERROR);
-                return REDIRECT_REGISTRATION_PAGE;
-            } else {
-                session.removeAttribute("registration_error");
-            }
             String password = request.getParameter(User.PASSWORD);
             String repeatedPassword = request.getParameter(REPEAT_PASSWORD);
             if(!password.equals(repeatedPassword)){
@@ -62,13 +52,20 @@ public class RegisterCommand implements Command {
             String role = request.getParameter(User.USER_ROLE_ID);
 
             User user = new User(login, password, name, surname, UserRole.valueOf(role.toUpperCase()));
-            userService.create(user);
+            UserService userService = factory.getUserService();
+            if(!userService.create(user)){
+                LOGGER.error("Error: can not creat user. User with login " + user.getLogin() + " already exists");
+                session.setAttribute("registration_error", USER_REGISTRATION_ERROR);
+                return REDIRECT_REGISTRATION_PAGE;
+            } else {
+                session.removeAttribute("registration_error");
+            }
             if(user.getUserRoleId() == User.CLIENT_ID){
-                ClientService clientService = factory.getClientService();
                 Optional<User> createdUser = userService.findUserByLogin(user.getLogin());
                 user.setId(createdUser.get().getId());
                 double initialBalance = 0;
                 ClientAccount clientAccount = new ClientAccount(user.getId(), initialBalance);
+                ClientService clientService = factory.getClientService();
                 if(!clientService.create(clientAccount)) {
                     LOGGER.error("Error: can not create client account.");
                     session.setAttribute("client_registration_error", CLIENT_REGISTRATION_ERROR);

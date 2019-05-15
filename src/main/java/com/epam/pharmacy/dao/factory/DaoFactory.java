@@ -1,19 +1,15 @@
 package com.epam.pharmacy.dao.factory;
 
 import com.epam.pharmacy.dao.*;
-import com.epam.pharmacy.dao.connectionpool.ConnectionPool;
+import com.epam.pharmacy.dao.pool.ConnectionPool;
 import com.epam.pharmacy.dao.impl.*;
 import com.epam.pharmacy.entity.*;
 import com.epam.pharmacy.entity.builder.Builder;
 import com.epam.pharmacy.entity.builder.BuilderFactory;
-import com.epam.pharmacy.exception.ConnectionPoolException;
-import com.epam.pharmacy.exception.DaoException;
-import com.epam.pharmacy.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
-import java.sql.SQLException;
 
 public class DaoFactory {
     private static final Logger LOGGER = LogManager.getLogger(DaoFactory.class);

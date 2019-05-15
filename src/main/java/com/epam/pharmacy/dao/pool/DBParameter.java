@@ -1,4 +1,4 @@
-package com.epam.pharmacy.dao.connectionpool;
+package com.epam.pharmacy.dao.pool;
 
 public class DBParameter {
     public static final String DB_DRIVER = "db.driver";

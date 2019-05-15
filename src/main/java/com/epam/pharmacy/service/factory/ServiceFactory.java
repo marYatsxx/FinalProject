@@ -1,6 +1,6 @@
 package com.epam.pharmacy.service.factory;
 
-import com.epam.pharmacy.dao.connectionpool.ConnectionPool;
+import com.epam.pharmacy.dao.pool.ConnectionPool;
 import com.epam.pharmacy.dao.factory.DaoFactory;
 import com.epam.pharmacy.exception.ConnectionPoolException;
 import com.epam.pharmacy.exception.DaoException;

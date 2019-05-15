@@ -1,4 +1,4 @@
-package com.epam.pharmacy.dao.connectionpool;
+package com.epam.pharmacy.dao.pool;
 
 import com.epam.pharmacy.exception.ConnectionPoolException;
 import org.apache.log4j.LogManager;

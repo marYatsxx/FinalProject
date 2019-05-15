@@ -56,24 +56,15 @@ public class ClientDaoImpl extends AbstractDao<ClientAccount> implements ClientD
 
     @Override
     public boolean create(ClientAccount account) throws DaoException {
-        int id = account.getId();
-        Optional<ClientAccount> clientAccount = findById(id);
-        if(clientAccount.isPresent()){
-            LOGGER.info("Client account with id " + id + " already exists. Creation will be skipped");
-            return false;
-        }
+        Optional<Integer> id = Optional.ofNullable(account.getId());
         double balance = account.getBalance();
-        executeUpdate(CREATE_ACCOUNT, id, balance);
-        LOGGER.info("Client account has been created successfully");
-        return true;
-    }
-
-    @Override
-    public boolean update(ClientAccount user) throws DaoException {
-        int id  = user.getId();
-        double balance = user.getBalance();
-        executeUpdate(UPDATE_ACCOUNT, balance, id);
-        LOGGER.info("Update has been executed successfully");
+        if(id.isPresent()){
+            executeUpdate(UPDATE_ACCOUNT, balance, id.get());
+            LOGGER.info("Update has been executed successfully");
+        } else {
+            executeUpdate(CREATE_ACCOUNT, id, balance);
+            LOGGER.info("Client account has been created successfully");
+        }
         return true;
     }
 }

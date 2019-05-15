@@ -73,30 +73,19 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
 
     @Override
     public boolean create(User user) throws DaoException {
+        Optional<Integer> id = Optional.ofNullable(user.getId());
         String login = user.getLogin();
-        Optional<User> optionalUser = executeQueryForSingleResult(FIND_USER_BY_LOGIN, login);
-        if(optionalUser.isPresent()) {
-            LOGGER.info("User with login " + login + " already exists. Creation will be skipped");
-            return false;
-        }
         String password = user.getPassword();
         String name = user.getName();
         String surname = user.getSurname();
         int user_role_id = user.getUserRoleId();
-        executeUpdate(CREATE_USER, login, password, name, surname, user_role_id);
-        LOGGER.info("New user has been created successfully");
-        return true;
-    }
-
-    @Override
-    public boolean update(User user) throws DaoException {
-        int id = user.getId();
-        String login = user.getLogin();
-        String password = user.getPassword();
-        String name = user.getName();
-        String surname = user.getSurname();
-        executeUpdate(UPDATE_USER_INFO, login, password, name, surname, id);
-        LOGGER.info("Update has been finished successfully");
+        if(id.isPresent()){
+            executeUpdate(UPDATE_USER_INFO, login, password, name, surname, id.get());
+            LOGGER.info("Update has been finished successfully");
+        } else {
+            executeUpdate(CREATE_USER, login, password, name, surname, user_role_id);
+            LOGGER.info("New user has been created successfully");
+        }
         return true;
     }
 }

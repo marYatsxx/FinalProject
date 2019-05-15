@@ -74,29 +74,18 @@ public class MedicineDaoImpl extends AbstractDao<Medicine> implements MedicineDa
 
     @Override
     public boolean create(Medicine item) throws DaoException {
+        Optional<Integer> id = Optional.ofNullable(item.getId());
         String name = item.getName();
         String dosage = item.getDosage();
-        Optional<Medicine> optionalMedicine = executeQueryForSingleResult(FIND_MEDICINE_BY_NAME_AND_DOSAGE, name, dosage);
-        if(optionalMedicine.isPresent()){
-            LOGGER.info("Medicine with name " + name + " and dosage " + dosage + " already exists. Creation will be skipped");
-            return false;
+        double price = item.getPrice();
+        boolean needs_prescription = item.isNeedsPrescription();
+        if(id.isPresent()){
+            executeUpdate(UPDATE_MEDICINE, name, dosage, price, needs_prescription, id.get());
+            LOGGER.info("Update has been executed successfully");
+        } else {
+            executeUpdate(CREATE_MEDICINE, name, dosage, price, needs_prescription);
+            LOGGER.info("Medicine has been created successfully");
         }
-        double price = item.getPrice();
-        boolean needs_prescription = item.isNeedsPrescription();
-        executeUpdate(CREATE_MEDICINE, name, dosage, price, needs_prescription);
-        LOGGER.info("Medicine has been created successfully");
-        return true;
-    }
-
-    @Override
-    public boolean update(Medicine item) throws DaoException {
-        int id = item.getId();
-        String dosage = item.getDosage();
-        double price = item.getPrice();
-        String name = item.getName();
-        boolean needs_prescription = item.isNeedsPrescription();
-        executeUpdate(UPDATE_MEDICINE, name, dosage, price, needs_prescription, id);
-        LOGGER.info("Update has been executed successfully");
         return true;
     }
 }

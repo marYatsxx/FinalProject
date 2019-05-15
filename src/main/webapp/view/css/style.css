@@ -62,10 +62,12 @@ a {
     text-decoration: none;
     display: inline-block;
     font:normal 16px/1.8em Georgia, "Times New Roman", Times, serif;
+    cursor: pointer;
 }
 
 #button{
     padding: 5px 30px;
+    cursor: pointer;
 }
 
 .header {
