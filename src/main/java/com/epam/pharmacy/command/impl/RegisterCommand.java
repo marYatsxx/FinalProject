@@ -33,7 +33,7 @@ public class RegisterCommand implements Command {
     }
 
     @Override
-    public String doPost(HttpServletRequest request, HttpServletResponse response) {
+    public String doPost(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         try (ServiceFactory factory = new ServiceFactory()) {
             factory.startTransaction();
             HttpSession session = request.getSession();
@@ -77,8 +77,6 @@ public class RegisterCommand implements Command {
             }
             factory.commit();
             session.setAttribute(User.USER, user);
-        } catch (ServiceException | DaoException e) {
-            e.printStackTrace();
         }
         return REDIRECT_VIEW_PROFILE;
     }

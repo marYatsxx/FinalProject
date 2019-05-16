@@ -80,6 +80,14 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         String surname = user.getSurname();
         int user_role_id = user.getUserRoleId();
         if(id.isPresent()){
+            String thisUserLogin = findById(id.get()).get().getLogin();
+            Optional<String> otherUserLogin = Optional.ofNullable(findByLogin(login).get().getLogin());
+            if(otherUserLogin.isPresent()){
+                if(login.equals(otherUserLogin.get()) && !login.equals(thisUserLogin)){
+                    LOGGER.info("User with login " + login + " already exists. Creation will be skipped");
+                    return false;
+                }
+            }
             executeUpdate(UPDATE_USER_INFO, login, password, name, surname, id.get());
             LOGGER.info("Update has been finished successfully");
         } else {

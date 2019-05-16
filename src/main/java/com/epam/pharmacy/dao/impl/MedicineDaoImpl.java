@@ -78,7 +78,7 @@ public class MedicineDaoImpl extends AbstractDao<Medicine> implements MedicineDa
         String name = item.getName();
         String dosage = item.getDosage();
         double price = item.getPrice();
-        boolean needs_prescription = item.isNeedsPrescription();
+        boolean needs_prescription = item.needsPrescription();
         if(id.isPresent()){
             executeUpdate(UPDATE_MEDICINE, name, dosage, price, needs_prescription, id.get());
             LOGGER.info("Update has been executed successfully");

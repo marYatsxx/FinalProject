@@ -25,9 +25,7 @@
 						${sessionScope.user.getSurname()}"/></h1>
 					</c:if>
 					<hr/>
-					<p>Posted by <a href="#">Owner</a>
 					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. Cras id urna. <a href="#">Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu posuere nunc justo tempus leo.</a> Donec mattis, purus nec placerat bibendum, dui pede condimentum odio, ac blandit ante orci ut diam. Cras fringilla magna. Phasellus suscipit, leo a pharetra condimentum, lorem tellus eleifend magna, eget fringilla velit magna id neque. Curabitur vel urna. In tristique orci porttitor ipsum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. Cras id urna. Morbi tincidunt, orci ac convallis aliquam.</p>
-					<p><a href="#">Read more</a></p>
 				</div>
 			</div>
 			<jsp:include page="view/jsp/element/menu.jsp"/>
@@ -36,5 +34,6 @@
 	</div>
 	</div>
 	<jsp:include page="view/jsp/element/footer.jsp"/>
+</div>
 </body>
 </html>

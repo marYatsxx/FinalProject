@@ -33,7 +33,7 @@ public class EditProfileCommand implements Command {
     }
 
     @Override
-    public String doPost(HttpServletRequest request, HttpServletResponse response) {
+    public String doPost(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         try (ServiceFactory factory = new ServiceFactory()) {
             factory.startTransaction();
             HttpSession session = request.getSession();
@@ -62,8 +62,6 @@ public class EditProfileCommand implements Command {
             }
             factory.commit();
             session.setAttribute(User.USER, updatedUser);
-        } catch (ServiceException | DaoException e) {
-            e.printStackTrace();
         }
         return REDIRECT_VIEW_PROFILE;
     }

@@ -12,7 +12,11 @@ import java.util.Optional;
 
 public class UserService {
     private static final Logger LOGGER = LogManager.getLogger(UserService.class);
-    private DaoFactory factory = new DaoFactory();
+    private DaoFactory factory;
+
+    public UserService(DaoFactory factory){
+        this.factory = factory;
+    }
 
     public Optional<User> login(String login, String password) throws ServiceException {
         try {

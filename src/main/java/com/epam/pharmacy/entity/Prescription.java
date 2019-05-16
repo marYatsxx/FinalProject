@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class Prescription implements Identifiable {
 
+    public static final String PRESCRIPTION = "prescription";
     public static final String ID = "prescription_id";
     public static final String CLIENT_ID = "client_id";
     public static final String VALIDITY = "validity";

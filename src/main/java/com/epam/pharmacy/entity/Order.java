@@ -5,6 +5,7 @@ import java.util.Objects;
 
 public class Order implements Identifiable {
 
+    public static final String ORDER = "order";
     public static final String ID = "order_id";
     public static final String PRICE = "price";
     public static final String DATE = "date";

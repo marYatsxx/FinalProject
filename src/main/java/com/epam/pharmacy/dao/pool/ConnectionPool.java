@@ -46,30 +46,32 @@ public class ConnectionPool {
     }
 
     public static ConnectionPool getInstance() {
-        if (!init.get()) {
-            locker.lock();
-            if (instance==null){
-                instance = new ConnectionPool();
-                try{
-                    instance.createPool();
-                } catch (ConnectionPoolException e){
-                    LOGGER.error("Can not create connection pool");
-                }
+        if (instance==null){
+            instance = new ConnectionPool();
+            try{
+                instance.createPool();
+            } catch (ConnectionPoolException e){
+                e.printStackTrace();
+                LOGGER.error("Can not create connection pool");
             }
-            locker.unlock();
         }
+
+        /*if (!init.get()) {
+            locker.lock();
+
+            locker.unlock();
+        }*/
         return instance;
     }
 
     private void createPool() throws ConnectionPoolException{
-        LOGGER.trace("Connection pool creation starts...");
         pool = new ArrayBlockingQueue<>(poolSize, true);
         try {
             Class.forName(driverName);
             for (int i = 0; i < poolSize; i++) {
                 pool.add(DriverManager.getConnection(url, user, password));
             }
-            LOGGER.trace("Connection pool was created successfully");
+            LOGGER.info("Connection pool was created successfully");
         } catch (ClassNotFoundException | SQLException e) {
             throw new ConnectionPoolException(e.getMessage());
         }
@@ -79,6 +81,7 @@ public class ConnectionPool {
         Connection connection;
         try {
             connection = pool.take();
+            LOGGER.info("getConnection");
         } catch (InterruptedException e) {
            throw new ConnectionPoolException(e.getMessage());
         }
@@ -89,6 +92,7 @@ public class ConnectionPool {
         if (connection != null) {
             try {
                 pool.put(connection);
+                LOGGER.info("releaseConnection");
             } catch (InterruptedException e) {
                 throw new ConnectionPoolException(e.getMessage());
             }

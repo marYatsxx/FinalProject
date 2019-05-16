@@ -4,6 +4,7 @@ import com.epam.pharmacy.command.Command;
 import com.epam.pharmacy.entity.User;
 import com.epam.pharmacy.exception.ServiceException;
 import com.epam.pharmacy.service.UserService;
+import com.epam.pharmacy.service.factory.ServiceFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -26,9 +27,9 @@ public class LoginCommand implements Command {
     }
 
     @Override
-    public String doPost(HttpServletRequest request, HttpServletResponse response) {
-        try {
-            UserService userService = new UserService();
+    public String doPost(HttpServletRequest request, HttpServletResponse response) throws ServiceException{
+        try (ServiceFactory factory = new ServiceFactory()) {
+            UserService userService = factory.getUserService();
             String login = request.getParameter(User.LOGIN);
             String password = request.getParameter(User.PASSWORD);
             Optional<User> user = userService.login(login, password);
@@ -39,8 +40,6 @@ public class LoginCommand implements Command {
                 session.setAttribute("error", INVALID_LOGIN_OR_PASSWORD);
                 return REDIRECT_LOGIN_PAGE;
             }
-        } catch (ServiceException e) {
-            e.printStackTrace();
         }
         return REDIRECT_VIEW_PROFILE;
     }

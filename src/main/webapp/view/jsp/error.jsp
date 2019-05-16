@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <style>
-    <%@include file='../../view/css/style.css' %>
+    <%@include file='../css/style.css' %>
 </style>
 <body>
 <div class="main">

@@ -5,8 +5,7 @@ import com.epam.pharmacy.dao.factory.DaoFactory;
 import com.epam.pharmacy.exception.ConnectionPoolException;
 import com.epam.pharmacy.exception.DaoException;
 import com.epam.pharmacy.exception.ServiceException;
-import com.epam.pharmacy.service.ClientService;
-import com.epam.pharmacy.service.UserService;
+import com.epam.pharmacy.service.*;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
@@ -16,18 +15,30 @@ import java.sql.SQLException;
 public class ServiceFactory implements AutoCloseable {
     private static final Logger LOGGER = LogManager.getLogger(ServiceFactory.class);
     private Connection connection;
+    DaoFactory factory = new DaoFactory();
 
     public ServiceFactory(){
-        DaoFactory factory = new DaoFactory();
         connection = factory.getConnection();
     }
 
     public UserService getUserService(){
-        return new UserService();
+        return new UserService(factory);
     }
 
     public ClientService getClientService(){
-        return new ClientService();
+        return new ClientService(factory);
+    }
+
+    public MedicineService getMedicineService(){
+        return new MedicineService(factory);
+    }
+
+    public OrderService getOrderService(){
+        return new OrderService(factory);
+    }
+
+    public PrescriptionService getPrescriptionService(){
+        return new PrescriptionService(factory);
     }
 
     public Connection getConnection() {
@@ -52,19 +63,19 @@ public class ServiceFactory implements AutoCloseable {
         }
     }
 
-    public void commit()throws DaoException{
+    public void commit()throws ServiceException{
         try {
             connection.commit();
         } catch (SQLException e) {
-            throw new DaoException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
     }
 
-    public void rollback() throws DaoException{
+    public void rollback() throws ServiceException{
         try{
             connection.rollback();
         } catch (SQLException e){
-            throw new DaoException(e.getMessage());
+            throw new ServiceException(e.getMessage());
         }
     }
     @Override

@@ -26,7 +26,8 @@ public class FrontController extends HttpServlet {
         process(request, response, ActionType.POST);
     }
 
-    private String process(HttpServletRequest request, HttpServletResponse response, ActionType actionType) throws ServletException, IOException {
+    private String process(HttpServletRequest request, HttpServletResponse response, ActionType actionType)
+                                                                                throws ServletException, IOException {
         String command = request.getParameter("command");
         String page;
         Command action = CommandManager.getCommand(command);

@@ -6,7 +6,7 @@
         <h2 class="star">Menu</h2>
         <ul class="sb_menu">
             <li><a href="pharmacy?command=viewHomePage">Home</a></li>
-            <li><a href="pharmacy?command=viewCatalog">Medication List</a></li>
+            <li><a href="pharmacy?command=viewCatalog&pageCount=1">Medication List</a></li>
             <c:if test="${not empty sessionScope.user}">
                 <li><a href="#">Make an order</a></li>
                 <li><a href="#">Renew Prescription</a></li>

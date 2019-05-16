@@ -4,6 +4,7 @@ import java.util.Objects;
 
 public class Medicine implements Identifiable {
 
+    public static final String MEDICINE = "medicine";
     public static final String ID = "medicine_id";
     public static final String NAME = "name";
     public static final String DOSAGE = "dosage";
@@ -43,7 +44,7 @@ public class Medicine implements Identifiable {
         return price;
     }
 
-    public boolean isNeedsPrescription() {
+    public boolean needsPrescription() {
         return needsPrescription;
     }
 

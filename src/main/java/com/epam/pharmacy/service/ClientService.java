@@ -8,12 +8,15 @@ import com.epam.pharmacy.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.sql.Connection;
 import java.util.Optional;
 
 public class ClientService {
     private static final Logger LOGGER = LogManager.getLogger(ClientService.class);
-    private DaoFactory factory = new DaoFactory();
+    private DaoFactory factory;
+
+    public ClientService(DaoFactory factory){
+        this.factory = factory;
+    }
 
     public Optional<ClientAccount> findById(int id) throws ServiceException {
         try {
