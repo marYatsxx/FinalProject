@@ -7,35 +7,35 @@ public class Order implements Identifiable {
 
     public static final String ORDER = "order";
     public static final String ID = "order_id";
-    public static final String PRICE = "price";
     public static final String DATE = "date";
     public static final String CLIENT_ID = "client_id";
+    public static final String MEDICINE_ID = "medicine_id";
+    public static final String PAID = "paid";
 
     private Integer id;
-    private double price;
     private LocalDate date;
     private Integer clientId;
+    private Integer medicineId;
+    private boolean paid;
 
-    public Order(Integer id, double price, LocalDate date, Integer clientId) {
+    public Order(Integer id, LocalDate date, Integer clientId, Integer medicineId, boolean paid) {
         this.id = id;
-        this.price = price;
         this.date = date;
         this.clientId = clientId;
+        this.medicineId = medicineId;
+        this.paid = paid;
     }
 
-    public Order(double price, LocalDate date, Integer clientId) {
-        this.price = price;
+    public Order(LocalDate date, Integer clientId, Integer medicineId, boolean paid) {
         this.date = date;
         this.clientId = clientId;
+        this.medicineId = medicineId;
+        this.paid = paid;
     }
 
     @Override
     public Integer getId() {
         return id;
-    }
-
-    public double getPrice() {
-        return price;
     }
 
     public LocalDate getDate() {
@@ -46,29 +46,39 @@ public class Order implements Identifiable {
         return clientId;
     }
 
+    public Integer getMedicineId() {
+        return medicineId;
+    }
+
+    public boolean isPaid() {
+        return paid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Order order = (Order) o;
-        return id == order.id &&
-                Double.compare(order.price, price) == 0 &&
-                clientId == order.clientId &&
-                Objects.equals(date, order.date);
+        return paid == order.paid &&
+                Objects.equals(id, order.id) &&
+                Objects.equals(date, order.date) &&
+                Objects.equals(clientId, order.clientId) &&
+                Objects.equals(medicineId, order.medicineId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, price, date, clientId);
+        return Objects.hash(id, date, clientId, medicineId, paid);
     }
 
     @Override
     public String toString() {
         return "Order{" +
                 "id=" + id +
-                ", price=" + price +
                 ", date=" + date +
                 ", clientId=" + clientId +
+                ", medicineId=" + medicineId +
+                ", paid=" + paid +
                 '}';
     }
 }

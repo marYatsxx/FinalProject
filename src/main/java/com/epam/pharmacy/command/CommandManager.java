@@ -21,6 +21,7 @@ public class CommandManager {
         commands.put(CommandType.REGISTER, new RegisterCommand());
         commands.put(CommandType.VIEWCATALOG, new ViewCatalogCommand());
         commands.put(CommandType.VIEWHOMEPAGE, new ViewHomePageCommand());
+        commands.put(CommandType.ADDTOORDER, new AddToOrderCommand());
         LOGGER.info("Command container was successfully initialized. " +
                 "Total number of commands: " + commands.size());
     }

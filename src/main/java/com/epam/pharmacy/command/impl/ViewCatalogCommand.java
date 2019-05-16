@@ -12,10 +12,10 @@ import javax.servlet.http.HttpSession;
 import java.util.List;
 
 public class ViewCatalogCommand implements Command {
-    private static final String FORWARD_VIEW_CATALOG = "/view/jsp/catalog.jsp";
+    public static final String FORWARD_VIEW_CATALOG = "/view/jsp/catalog.jsp";
     private static final String MEDICINE_LIST = "medicine_list";
     private static final String PAGE_AMOUNT = "pageAmount";
-    private static final String PAGE_COUNT = "pageCount";
+    public static final String PAGE_COUNT = "pageCount";
 
     @Override
     public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServiceException{

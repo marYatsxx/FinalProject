@@ -9,5 +9,6 @@ public enum CommandType {
     VIEWPROFILE,
     EDITPROFILE,
     VIEWCATALOG,
-    VIEWHOMEPAGE
+    VIEWHOMEPAGE,
+    ADDTOORDER
 }

@@ -17,6 +17,7 @@
         <div class="content">
             <div class="content_resize">
                 <div class="mainbar">
+                    <h1>Medicine List</h1>
                     <div class="catalog">
                         <c:if test="${pageCount>pageAmount}">
                             ${pageCount=pageAmount}
@@ -39,36 +40,42 @@
                                     </c:if>
                                 </div>
                             </div>
-                        </c:forEach>
-                        <div id="prescriptionCheck">
-                            <div class="window">
-                                <h2>This medicine needs prescription.</h2>
-                                <p>If you have prescription, please, enter its id.</p>
-                                <form>
-                                    <input type="hidden" name="command" value="checkPrescription" />
-                                    Prescription id: <input type="text" name="prescription_id" required />
+                            <div id="prescriptionCheck">
+                                <div class="window">
+                                    <h2>This medicine needs prescription.</h2>
+                                    <p>If you have prescription, please, enter its id.</p>
+                                    <form>
+                                        <input type="hidden" name="command" value="checkPrescription" />
+                                        Prescription id: <input type="text" name="prescription_id" required />
+                                        <br/>
+                                        <input class="win_button" type="submit" value="Buy" required /><a href="#" class="win_button">Close</a>
+                                    </form>
+                                </div>
+                            </div>
+                            <div id="confirmation">
+                                <div class="window">
+                                    <br/><br/>
+                                    <h2>Do you want to buy this medicine?</h2>
                                     <br/>
-                                    <input class="win_button" type="submit" value="Buy" required /><a href="#" class="win_button">Close</a>
-                                </form>
+                                    <form>
+                                        <input type="hidden" name="command" value="addToOrder"/>
+                                        <input type="hidden" name="pageCount" value="${pageCount}"/>
+                                        <input type="hidden" name="medicine_id" value="${med.getId()}"/>
+                                        <input class="win_button" type="submit" value="Buy" required />
+                                        <a href="#" class="win_button">Close</a>
+                                    </form>
+                                </div>
                             </div>
-                        </div>
-                        <div id="confirmation">
-                            <div class="window">
-                                <br/><br/>
-                                <h2>Do you want to buy this medicine?</h2>
-                                <br/>
-                                <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}#ok" class="win_button">Buy</a>
-                                <a href="#" class="win_button">Close</a>
+                            <div id="ok">
+                                <div class="window">
+                                    <br/><br/>
+                                    <h2>Item is added to order. You can pay for the order in your account.</h2>
+                                    <br/>
+                                    <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}" class="win_button">OK</a>
+                                </div>
                             </div>
-                        </div>
-                        <div id="ok">
-                            <div class="window">
-                                <br/><br/>
-                                <h2>Item is added to order. You can pay for the order in your account.</h2>
-                                <br/>
-                                <a href="pharmacy?command=addToOrder" class="win_button">OK</a>
-                            </div>
-                        </div>
+                        </c:forEach>
+
                     </div>
                     <br/>
                     <div class="arrow">

@@ -17,10 +17,11 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     private static final Logger LOGGER = LogManager.getLogger(OrderDaoImpl.class);
 
     private static final String FIND_ALL_ORDERS = "SELECT * FROM `order`;";
-    private static final String CREATE_ORDER = "INSERT INTO `order` VALUES(default, ?, ?, ?);";
+    private static final String CREATE_ORDER = "INSERT INTO `order` VALUES(default, ?, ?, ?, ?);";
     private static final String REMOVE_ORDER_BY_ID = "DELETE FROM `order` WHERE order_id = ?;";
     private static final String FIND_ORDER_BY_ID = "SELECT * FROM `order` WHERE order_id = ?;";
     private static final String FIND_ORDER_BY_CLIENT_ID = "SELECT * FROM `order` WHERE client_id = ?;";
+    private static final String FIND_NOT_PAID_ORDER_BY_CLIENT_ID = "SELECT * FROM `order` WHERE client_id = ? AND paid=false;";
 
     public OrderDaoImpl(Connection connection, Builder<Order> builder) {
         super(connection, builder);
@@ -29,6 +30,11 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     @Override
     public List<Order> findOrderByClientId(int id) throws DaoException {
         return executeQuery(FIND_ORDER_BY_CLIENT_ID, id);
+    }
+
+    @Override
+    public Optional<Order> findNotPaidOrderByClientId(int id) throws DaoException {
+        return executeQueryForSingleResult(FIND_NOT_PAID_ORDER_BY_CLIENT_ID, id);
     }
 
     @Override
@@ -61,10 +67,11 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
 
     @Override
     public boolean create(Order item) throws DaoException {
-        double price = item.getPrice();
         LocalDate date = item.getDate();
         int clientId = item.getClientId();
-        executeUpdate(CREATE_ORDER, price, date, clientId);
+        int medicineId = item.getMedicineId();
+        boolean paid = item.isPaid();
+        executeUpdate(CREATE_ORDER, date, clientId, medicineId, paid);
         LOGGER.info("Order has been created successfully");
         return true;
     }

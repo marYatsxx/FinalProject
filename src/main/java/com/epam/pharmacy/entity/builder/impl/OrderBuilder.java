@@ -13,10 +13,11 @@ public class OrderBuilder implements Builder<Order> {
     @Override
     public Order build(ResultSet resultSet) throws SQLException, BuilderException {
         Integer id = resultSet.getInt(Order.ID);
-        double price = resultSet.getDouble(Order.PRICE);
         Date date = resultSet.getDate(Order.DATE);
         LocalDate orderDate = date.toLocalDate();
         Integer clientId = resultSet.getInt(Order.CLIENT_ID);
-        return new Order(id, price, orderDate, clientId);
+        Integer medicineId = resultSet.getInt(Order.MEDICINE_ID);
+        boolean paid = resultSet.getBoolean(Order.PAID);
+        return new Order(id, orderDate, clientId, medicineId, paid);
     }
 }
