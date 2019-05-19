@@ -8,7 +8,6 @@
 </head>
 <style>
     <%@include file='../../view/css/style.css' %>
-    <%@include file='../../view/css/catalog.css' %>
     <%@include file='../../view/css/window.css' %>
 </style>
 <body>
@@ -18,23 +17,17 @@
         <div class="content">
             <div class="content_resize">
                 <div class="mainbar">
-                    <h1>Medication List</h1>
+                    <h1>My Orders</h1>
                     <div class="catalog">
-                        <c:if test="${pageCount>pageAmount}">
-                            ${pageCount=pageAmount}
-                        </c:if>
-                        <c:if test="${pageCount<1}">
-                            ${pageCount=1}
-                        </c:if>
-                        <c:forEach var="med" items="${medicine_list}" begin="${pageCount*9-9}" end="${pageCount*9-1}" varStatus="count">
-                            <div class="product-item" id="${count.index}">
+                        <c:forEach var="med" items="${medicine_list}" varStatus="count">
+                            <div class="product-item">
                                 <img src="view/images/medicine.jpg">
                                 <div class="product-list">
                                     <h3><c:out value="${med.getName()}"/> <c:out value="${med.getDosage()}"/></h3>
                                     <span class="price"><c:out value="${med.getPrice()}"/></span>
                                     <c:if test="${med.needsPrescription()==true}">
                                         <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}&medicine_id=${med.getId()}#prescriptionCheck"
-                                            class="button">Buy</a>
+                                           class="button">Buy</a>
                                     </c:if>
                                     <c:if test="${med.needsPrescription()==false}">
                                         <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}&medicine_id=${med.getId()}#confirmation"

@@ -1,0 +1,35 @@
+.window {
+    width: 500px;
+    height: 200px;
+    text-align: center;
+    padding: 15px;
+    color: white;
+    background-color: #30588c;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    margin: auto;
+}
+
+#prescriptionCheck:target, #confirmation:target, #ok:target, #notFound:target, #success:target, #failure:target {
+    display: block;
+}
+
+.win_button {
+    display: inline-block;
+    padding: 0 12px;
+    color: white;
+    margin: 10px;
+    text-decoration: none;
+    background: #30588c;
+    cursor: pointer;
+    border: none;
+    font: normal 22px/1.6em Georgia, "Times New Roman", Times, serif;
+
+}
+
+.win_button:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
