@@ -39,17 +39,42 @@ public class UserService {
     public boolean create(User user) throws ServiceException {
         try {
             UserDao userDao = factory.getUserDao();
+            Optional<Integer> id = Optional.ofNullable(user.getId());
             String login = user.getLogin();
-            if(user.getId()==null){
-                Optional<User> optionalUser = userDao.findByLogin(login);
+            if(id.isPresent()){
+                if(checkLoginForUpdate(user)){
+                    LOGGER.info("User with login " + login + " already exists.Creation will be skipped.");
+                    return false;
+                }
+            } else {
+                Optional<User> optionalUser = findUserByLogin(login);
                 if(optionalUser.isPresent()) {
                     LOGGER.info("User with login " + login + " already exists. Creation will be skipped");
                     return false;
                 }
             }
-            return userDao.create(user);
+            userDao.create(user);
+            return true;
         } catch (DaoException e){
             e.printStackTrace();
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    private boolean checkLoginForUpdate(User user) throws ServiceException {
+        //check if updated login already exists in database
+        try {
+            UserDao userDao = factory.getUserDao();
+            Optional<Integer> id = Optional.ofNullable(user.getId());
+            String login = user.getLogin();
+            String thisUserLogin = userDao.findById(id.get()).get().getLogin();
+            Optional<User> otherUser = findUserByLogin(login);
+            if(otherUser.isPresent()){
+                String otherUserLogin = otherUser.get().getLogin();
+                return login.equals(otherUserLogin) && !login.equals(thisUserLogin);
+            }
+            return false;
+        } catch (DaoException e) {
             throw new ServiceException(e.getMessage());
         }
     }
@@ -57,11 +82,9 @@ public class UserService {
     public Optional<User> findUserByLogin(String login) throws ServiceException {
         try {
             UserDao userDao = factory.getUserDao();
-            return userDao.findByLogin(login);
+            return userDao.findUserByLogin(login);
         } catch (DaoException e){
             throw new ServiceException(e.getMessage());
         }
     }
-
-
 }

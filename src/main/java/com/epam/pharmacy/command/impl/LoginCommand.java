@@ -16,14 +16,15 @@ import java.util.Optional;
 public class LoginCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(LoginCommand.class);
 
-    private static final String REDIRECT_VIEW_PROFILE = "pharmacy?command=viewHomePage";
+    private static final String FORWARD_LOGIN_PAGE = "/view/jsp/login.jsp";
+    private static final String REDIRECT_VIEW_HOMEPAGE = "pharmacy?command=viewHomePage";
     public static final String REDIRECT_LOGIN_PAGE = "pharmacy?command=login";
 
     private static final String INVALID_LOGIN_OR_PASSWORD = "Invalid login or password.";
 
     @Override
     public String doGet(HttpServletRequest request, HttpServletResponse response){
-        return "/view/jsp/login.jsp";
+        return FORWARD_LOGIN_PAGE;
     }
 
     @Override
@@ -41,6 +42,6 @@ public class LoginCommand implements Command {
                 return REDIRECT_LOGIN_PAGE;
             }
         }
-        return REDIRECT_VIEW_PROFILE;
+        return REDIRECT_VIEW_HOMEPAGE;
     }
 }

@@ -43,7 +43,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public Optional<User> findByLogin(String login) throws DaoException {
+    public Optional<User> findUserByLogin(String login) throws DaoException {
         return executeQueryForSingleResult(FIND_USER_BY_LOGIN, login);
     }
 
@@ -72,7 +72,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
-    public boolean create(User user) throws DaoException {
+    public void create(User user) throws DaoException {
         Optional<Integer> id = Optional.ofNullable(user.getId());
         String login = user.getLogin();
         String password = user.getPassword();
@@ -80,20 +80,11 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         String surname = user.getSurname();
         int user_role_id = user.getUserRoleId();
         if(id.isPresent()){
-            String thisUserLogin = findById(id.get()).get().getLogin();
-            Optional<String> otherUserLogin = Optional.ofNullable(findByLogin(login).get().getLogin());
-            if(otherUserLogin.isPresent()){
-                if(login.equals(otherUserLogin.get()) && !login.equals(thisUserLogin)){
-                    LOGGER.info("User with login " + login + " already exists. Creation will be skipped");
-                    return false;
-                }
-            }
             executeUpdate(UPDATE_USER_INFO, login, password, name, surname, id.get());
-            LOGGER.info("Update has been finished successfully");
+            LOGGER.info("User № " + id + ". Update has been finished successfully");
         } else {
             executeUpdate(CREATE_USER, login, password, name, surname, user_role_id);
             LOGGER.info("New user has been created successfully");
         }
-        return true;
     }
 }

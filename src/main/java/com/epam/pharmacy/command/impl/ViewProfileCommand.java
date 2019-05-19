@@ -1,7 +1,6 @@
 package com.epam.pharmacy.command.impl;
 
 import com.epam.pharmacy.command.Command;
-import com.epam.pharmacy.dao.UserDao;
 import com.epam.pharmacy.entity.ClientAccount;
 import com.epam.pharmacy.entity.User;
 import com.epam.pharmacy.exception.ServiceException;
@@ -15,7 +14,7 @@ import javax.servlet.http.HttpSession;
 import java.util.Optional;
 
 public class ViewProfileCommand implements Command {
-    private static final String FORWARD_CLIENT_ACCOUNT = "/view/jsp/profile.jsp";
+    public static final String FORWARD_VIEW_PROFILE = "/view/jsp/profile.jsp";
 
     @Override
     public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
@@ -36,7 +35,7 @@ public class ViewProfileCommand implements Command {
             session.setAttribute(ClientAccount.BALANCE, clientAccount.get().getBalance());
         }
         }
-        return FORWARD_CLIENT_ACCOUNT;
+        return FORWARD_VIEW_PROFILE;
     }
     @Override
     public String doPost(HttpServletRequest request, HttpServletResponse response) {

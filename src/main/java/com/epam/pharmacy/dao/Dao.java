@@ -11,7 +11,7 @@ public interface Dao<T extends Identifiable> {
     List<T> findAll() throws DaoException ;
     boolean removeById(int id) throws DaoException ;
     boolean remove(T item) throws DaoException ;
-    boolean create(T item) throws DaoException ;
+    void create(T item) throws DaoException ;
     default boolean isPresent(int id) throws DaoException{
         Optional<T> item = findById(id);
         return item.isPresent();

@@ -12,15 +12,15 @@
 <body>
 <div class="main">
     <div class="wrap">
-    <jsp:include page="element/header.jsp"/>
-    <div class="content">
-        <div class="content_resize">
-            <div class="mainbar">
-                <div class="form-wrap">
-                        <h1>Registration</h1>
-                        <form name="registrationForm" method="post" action="pharmacy">
+        <jsp:include page="element/header.jsp"/>
+        <div class="content">
+            <div class="content_resize">
+                <div class="mainbar">
+                    <h1>Registration</h1>
+                    <form method="post" action="pharmacy">
+                        <div class="form-wrap">
                             <input type="hidden" name="command" value="register">
-                            <div>
+                            <div class="field">
                                 <label for="login">Login</label>
                                 <input type="text" name="login" required>
                             </div>
@@ -29,11 +29,12 @@
                                     <c:out value="${sessionScope.registration_error}"/>
                                 </c:if>
                             </div>
-                            <div>
+
+                            <div class="field">
                                 <label for="password">Password</label>
                                 <input type="password" name="password" required>
                             </div>
-                            <div>
+                            <div class="field">
                                 <label for="repeat_password">Repeat password</label>
                                 <input type="password" name="repeat_password" required>
                             </div>
@@ -42,31 +43,32 @@
                                     <c:out value="${sessionScope.password_error}"/>
                                 </c:if>
                             </div>
-                            <div>
+                            <div class="field">
                                 <label for="name">Name</label>
                                 <input type="text" name="name" required>
                             </div>
-                            <div>
+                            <div class="field">
                                 <label for="surname">Surname</label>
                                 <input type="text" name="surname" required>
                             </div>
-                            <div>
+                            <div class="field">
                                 <label for="user_role_id">Role</label>
                                 <select name="user_role_id" required>
-                                    <option >Choose user role</option>
+                                    <option>Choose user role</option>
                                     <option value="doctor">Doctor</option>
                                     <option value="client">Client</option>
                                 </select>
                             </div>
                             <br/>
-                            <div class="register"><input type="submit" value="Register"></div>
-                        </form>
-                    </div>
+                        </div>
+                        <br/>
+                        <div class="register"><input id="button" type="submit" value="Register"></div>
+                    </form>
+                </div>
+                <jsp:include page="element/menu.jsp"/>
+                <div class="clr"></div>
             </div>
-            <jsp:include page="element/menu.jsp"/>
-            <div class="clr"></div>
         </div>
-    </div>
     </div>
     <jsp:include page="element/footer.jsp"/>
 </div>

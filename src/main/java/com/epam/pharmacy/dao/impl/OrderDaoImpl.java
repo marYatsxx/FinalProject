@@ -66,13 +66,12 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     }
 
     @Override
-    public boolean create(Order item) throws DaoException {
+    public void create(Order item) throws DaoException {
         LocalDate date = item.getDate();
         int clientId = item.getClientId();
         int medicineId = item.getMedicineId();
         boolean paid = item.isPaid();
         executeUpdate(CREATE_ORDER, date, clientId, medicineId, paid);
         LOGGER.info("Order has been created successfully");
-        return true;
     }
 }

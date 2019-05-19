@@ -22,6 +22,8 @@ public class PrescriptionDaoImpl extends AbstractDao<Prescription> implements Pr
     private static final String REMOVE_PRESCRIPTION_BY_ID = "DELETE FROM prescription WHERE prescription_id = ?;";
     private static final String FIND_PRESCRIPTION_BY_ID = "SELECT * FROM prescription WHERE prescription_id = ?;";
     private static final String FIND_PRESCRIPTION_BY_CLIENT_ID = "SELECT * FROM prescription WHERE client_id = ?;";
+    private static final String FIND_PRESCRIPTION_BY_CLIENT_AND_MEDICINE =
+            "SELECT * FROM prescription WHERE client_id = ? AND medicine_id=?;";
     private static final String FIND_PRESCRIPTION_BY_DOCTOR_ID = "SELECT * FROM prescription WHERE doctor_id = ?;";
 
     private static final String FIND_VALID_PRESCRIPTIONS = "SELECT * FROM prescription WHERE validity>CURRENT_DATE;;";
@@ -34,6 +36,11 @@ public class PrescriptionDaoImpl extends AbstractDao<Prescription> implements Pr
     @Override
     public List<Prescription> findPrescriptionByClientId(int id) throws DaoException {
         return executeQuery(FIND_PRESCRIPTION_BY_CLIENT_ID, id);
+    }
+
+    @Override
+    public Optional<Prescription> findPrescriptionByClientAndMedicine(int clientId, int medicineId) throws DaoException {
+        return executeQueryForSingleResult(FIND_PRESCRIPTION_BY_CLIENT_AND_MEDICINE, clientId, medicineId);
     }
 
     @Override
@@ -80,19 +87,18 @@ public class PrescriptionDaoImpl extends AbstractDao<Prescription> implements Pr
     }
 
     @Override
-    public boolean create(Prescription item) throws DaoException {
+    public void create(Prescription item) throws DaoException {
         Optional<Integer> id = Optional.ofNullable(item.getId());
         LocalDate validity = item.getValidity();
         int doctorId = item.getDoctorId();
         if(id.isPresent()){
             executeUpdate(UPDATE_PRESCRIPTION, validity, doctorId, id.get());
-            LOGGER.info("Update has been executed successfully");
+            LOGGER.info("Prescription № " + id + ". Update has been executed successfully");
         } else {
             int clientId = item.getClientId();
             int medicineId = item.getMedicineId();
             executeUpdate(CREATE_PRESCRIPTION, clientId, validity, medicineId, doctorId);
             LOGGER.info("Prescription has been created successfully");
         }
-        return true;
     }
 }

@@ -6,30 +6,38 @@
     margin: 0 10px;
     border-bottom: 2px solid #F5F5F5;
     background: white;
-    font:normal 12px/1.6em Georgia, "Times New Roman", Times, serif;
+    font: normal 12px/1.6em Georgia, "Times New Roman", Times, serif;
     transition: .3s ease-in;
 }
-.product-item:hover {border-bottom: 2px solid #30588c;}
+
+.product-item:hover {
+    border-bottom: 2px solid #30588c;
+}
+
 .product-item img {
     display: block;
     width: 100%;
 }
+
 .product-list {
     background: #fafafa;
     padding: 15px 0;
 }
+
 .product-list h3 {
     font-size: 18px;
     font-weight: 400;
     color: #444444;
     margin: 0 0 10px 0;
 }
+
 .price {
     font-size: 16px;
     color: #30588c;
     display: block;
     margin-bottom: 12px;
 }
+
 .button {
     text-decoration: none;
     display: inline-block;
@@ -41,23 +49,26 @@
     line-height: 28px;
     transition: .3s ease-in;
 }
-.product-item:hover .button {background: #30588c;}
 
-.arrow{
+.product-item:hover .button {
+    background: #30588c;
+}
+
+.arrow {
     float: right;
     display: flex;
     margin: 20px;
 }
 
-.arrow a img{
-    width:30px;
+.arrow a img {
+    width: 30px;
     height: 25px;
     border: none;
     align-content: center;
     float: bottom;
 }
 
-#prescriptionCheck, #confirmation, #ok {
+#prescriptionCheck, #confirmation, #ok, #notFound, #success, #failure {
     background: rgba(102, 102, 102, 0.5);
     background-size: cover;
     width: 100%;
@@ -68,7 +79,7 @@
     display: none;
 }
 
-.window{
+.window {
     width: 500px;
     height: 200px;
     text-align: center;
@@ -83,10 +94,14 @@
     margin: auto;
 }
 
-h2{
+h2 {
     color: white;
 }
-#prescriptionCheck:target, #confirmation:target, #ok:target {display: block;}
+
+#prescriptionCheck:target, #confirmation:target, #ok:target, #notFound:target, #success:target, #failure:target {
+    display: block;
+}
+
 .win_button {
     display: inline-block;
     padding: 0 12px;
@@ -94,11 +109,12 @@ h2{
     margin: 10px;
     text-decoration: none;
     background: #30588c;
-    cursor:pointer;
+    cursor: pointer;
     border: none;
-    font:normal 22px/1.6em Georgia, "Times New Roman", Times, serif;
+    font: normal 22px/1.6em Georgia, "Times New Roman", Times, serif;
 
 }
+
 .win_button:hover {
     background: rgba(255, 255, 255, 0.4);
 }

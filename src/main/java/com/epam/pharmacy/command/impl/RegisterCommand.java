@@ -66,16 +66,18 @@ public class RegisterCommand implements Command {
                 double initialBalance = 0;
                 ClientAccount clientAccount = new ClientAccount(user.getId(), initialBalance);
                 ClientService clientService = factory.getClientService();
-                if(!clientService.create(clientAccount)) {
+                if(clientService.create(clientAccount)) {
+                    factory.commit();
+                    session.removeAttribute("client_registration_error");
+                } else {
                     LOGGER.error("Error: can not create client account.");
                     session.setAttribute("client_registration_error", CLIENT_REGISTRATION_ERROR);
                     factory.rollback();
                     return REDIRECT_REGISTRATION_PAGE;
-                } else {
-                    session.removeAttribute("client_registration_error");
                 }
+            } else {
+                factory.commit();
             }
-            factory.commit();
             session.setAttribute(User.USER, user);
         }
         return REDIRECT_VIEW_PROFILE;

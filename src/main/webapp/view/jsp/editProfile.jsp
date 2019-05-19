@@ -22,7 +22,7 @@
                             <hr/>
                             <form name="edit_profile" method="post" action="pharmacy">
                                 <input type="hidden" name="command" value="editProfile" />
-                                <div class="info">
+                                <div class="register">
                                     <p>Name: <input type="text" name="name" value="<c:out value="${sessionScope.name}"/>"></p>
                                     <p>Surname: <input type="text" name="surname" value="<c:out value="${sessionScope.surname}"/>"></p>
                                     <p>Login: <input type="text" name="login" value="<c:out value="${sessionScope.login}"/>"></p>

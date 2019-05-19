@@ -73,7 +73,7 @@ public class MedicineDaoImpl extends AbstractDao<Medicine> implements MedicineDa
     }
 
     @Override
-    public boolean create(Medicine item) throws DaoException {
+    public void create(Medicine item) throws DaoException {
         Optional<Integer> id = Optional.ofNullable(item.getId());
         String name = item.getName();
         String dosage = item.getDosage();
@@ -81,11 +81,10 @@ public class MedicineDaoImpl extends AbstractDao<Medicine> implements MedicineDa
         boolean needs_prescription = item.needsPrescription();
         if(id.isPresent()){
             executeUpdate(UPDATE_MEDICINE, name, dosage, price, needs_prescription, id.get());
-            LOGGER.info("Update has been executed successfully");
+            LOGGER.info("Medicine № " + id + ". Update has been executed successfully");
         } else {
             executeUpdate(CREATE_MEDICINE, name, dosage, price, needs_prescription);
             LOGGER.info("Medicine has been created successfully");
         }
-        return true;
     }
 }

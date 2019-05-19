@@ -8,6 +8,9 @@
 </head>
 <style>
 	<%@include file='../css/style.css' %>
+    form{
+        text-align: center;
+    }
 </style>
 <body>
 <div class="main">

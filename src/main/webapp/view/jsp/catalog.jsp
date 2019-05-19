@@ -17,7 +17,7 @@
         <div class="content">
             <div class="content_resize">
                 <div class="mainbar">
-                    <h1>Medicine List</h1>
+                    <h1>Medication List</h1>
                     <div class="catalog">
                         <c:if test="${pageCount>pageAmount}">
                             ${pageCount=pageAmount}
@@ -25,57 +25,79 @@
                         <c:if test="${pageCount<1}">
                             ${pageCount=1}
                         </c:if>
-                        <c:forEach var="med" items="${medicine_list}" begin="${pageCount*9-9}" end="${pageCount*9-1}">
-                            <div class="product-item">
+                        <c:forEach var="med" items="${medicine_list}" begin="${pageCount*9-9}" end="${pageCount*9-1}" varStatus="count">
+                            <div class="product-item" id="${count.index}">
                                 <img src="view/images/medicine.jpg">
                                 <div class="product-list">
                                     <h3><c:out value="${med.getName()}"/> <c:out value="${med.getDosage()}"/></h3>
                                     <span class="price"><c:out value="${med.getPrice()}"/></span>
-
                                     <c:if test="${med.needsPrescription()==true}">
-                                        <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}#prescriptionCheck" class="button">Buy</a>
+                                        <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}&medicine_id=${med.getId()}#prescriptionCheck"
+                                            class="button">Buy</a>
                                     </c:if>
                                     <c:if test="${med.needsPrescription()==false}">
-                                        <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}#confirmation" class="button">Buy</a>
+                                        <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}&medicine_id=${med.getId()}#confirmation"
+                                           class="button">Buy</a>
                                     </c:if>
                                 </div>
                             </div>
+
                             <div id="prescriptionCheck">
                                 <div class="window">
                                     <h2>This medicine needs prescription.</h2>
-                                    <p>If you have prescription, please, enter its id.</p>
+                                    <p>Click the button to check prescription availability</p>
                                     <form>
                                         <input type="hidden" name="command" value="checkPrescription" />
-                                        Prescription id: <input type="text" name="prescription_id" required />
+                                        <c:set var="medicine_id" value="${requestScope.medicine_id}"/>
+                                        <input type="hidden" name="medicine_id" value="${medicine_id}"/>
                                         <br/>
-                                        <input class="win_button" type="submit" value="Buy" required /><a href="#" class="win_button">Close</a>
+                                        <input class="win_button" type="submit" value="Check"/>
+                                        <a href="#" class="win_button">Close</a>
                                     </form>
                                 </div>
                             </div>
                             <div id="confirmation">
                                 <div class="window">
-                                    <br/><br/>
+                                    <br/>
                                     <h2>Do you want to buy this medicine?</h2>
                                     <br/>
                                     <form>
                                         <input type="hidden" name="command" value="addToOrder"/>
-                                        <input type="hidden" name="pageCount" value="${pageCount}"/>
-                                        <input type="hidden" name="medicine_id" value="${med.getId()}"/>
-                                        <input class="win_button" type="submit" value="Buy" required />
+                                        <c:set var="medicine_id" value="${medicine_id}"/>
+                                        <input type="hidden" name="medicine_id" value="${medicine_id}"/>
+                                        <input class="win_button" type="submit" value="Buy"/>
                                         <a href="#" class="win_button">Close</a>
                                     </form>
                                 </div>
                             </div>
+                            <c:if test="${requestScope.containsValue(result)}">
+                                <c:redirect url="/pharmacy?command=viewCatalog&pageCount=${pageCount}#ok"/>
+                            </c:if>
+                            <c:if test="${requestScope.containsValue(hasPrescription)}">
+                                <c:if test="${hasPrescription==false}">
+                                    <c:redirect url="/pharmacy?command=viewCatalog&pageCount=${pageCount}#notFound"/>
+                                </c:if>
+                                <c:if test="${hasPrescription==true}">
+                                    <c:redirect url="pharmacy?command=viewCatalog&pageCount=${pageCount}&medicine_id=${medicine_id}#confirmation"/>
+                                </c:if>
+                            </c:if>
                             <div id="ok">
                                 <div class="window">
-                                    <br/><br/>
+                                    <br/>
                                     <h2>Item is added to order. You can pay for the order in your account.</h2>
                                     <br/>
-                                    <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}" class="win_button">OK</a>
+                                    <a href="#" class="win_button">OK</a>
+                                </div>
+                            </div>
+                            <div id="notFound">
+                                <div class="window">
+                                    <br/>
+                                    <h2>Prescription not found.</h2>
+                                    <br/>
+                                    <a href="#" class="win_button">OK</a>
                                 </div>
                             </div>
                         </c:forEach>
-
                     </div>
                     <br/>
                     <div class="arrow">

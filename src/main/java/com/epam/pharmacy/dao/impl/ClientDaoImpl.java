@@ -38,7 +38,7 @@ public class ClientDaoImpl extends AbstractDao<ClientAccount> implements ClientD
 
     @Override
     public boolean removeById(int id) throws DaoException {
-        if(!isPresent(id)){
+        if (!isPresent(id)) {
             LOGGER.info("Can not remove: Client account with id " + id + " is not found");
             return false;
         }
@@ -55,16 +55,18 @@ public class ClientDaoImpl extends AbstractDao<ClientAccount> implements ClientD
     }
 
     @Override
-    public boolean create(ClientAccount account) throws DaoException {
+    public void create(ClientAccount account) throws DaoException {
         Optional<Integer> id = Optional.ofNullable(account.getId());
         double balance = account.getBalance();
-        if(id.isPresent()){
-            executeUpdate(UPDATE_ACCOUNT, balance, id.get());
-            LOGGER.info("Update has been executed successfully");
-        } else {
-            executeUpdate(CREATE_ACCOUNT, id, balance);
-            LOGGER.info("Client account has been created successfully");
-        }
+        executeUpdate(CREATE_ACCOUNT, id.get(), balance);
+        LOGGER.info("Client account has been created successfully");
+    }
+
+    public boolean update(ClientAccount account) throws DaoException {
+        Optional<Integer> id = Optional.ofNullable(account.getId());
+        double balance = account.getBalance();
+        executeUpdate(UPDATE_ACCOUNT, balance, id.get());
+        LOGGER.info("Client account № " + id + ". Update has been executed successfully");
         return true;
     }
 }

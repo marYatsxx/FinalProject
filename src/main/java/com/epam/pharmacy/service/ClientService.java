@@ -30,7 +30,31 @@ public class ClientService {
     public boolean create(ClientAccount account) throws ServiceException {
         try {
             ClientDao clientDao = factory.getClientDao();
-            return clientDao.create(account);
+            Optional<Integer> id = Optional.ofNullable(account.getId());
+            if(id.isPresent()){
+                clientDao.create(account);
+                return true;
+            } else {
+                LOGGER.info("User not found. Can not create client account without user account.");
+                return false;
+            }
+
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public boolean update(ClientAccount account) throws ServiceException {
+        try {
+            ClientDao clientDao = factory.getClientDao();
+            Optional<Integer> id = Optional.ofNullable(account.getId());
+            if(id.isPresent()){
+                clientDao.update(account);
+                return true;
+            } else {
+                LOGGER.info("Client account not found.");
+                return false;
+            }
         } catch (DaoException e){
             throw new ServiceException(e.getMessage());
         }
