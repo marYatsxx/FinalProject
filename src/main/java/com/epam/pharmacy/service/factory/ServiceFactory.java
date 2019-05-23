@@ -41,6 +41,10 @@ public class ServiceFactory implements AutoCloseable {
         return new PrescriptionService(factory);
     }
 
+    public RequestService getRequestService(){
+        return new RequestService(factory);
+    }
+
     public Connection getConnection() {
         return connection;
     }

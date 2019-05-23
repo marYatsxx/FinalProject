@@ -24,7 +24,10 @@ public class CommandManager {
         commands.put(CommandType.ADDTOORDER, new AddToOrderCommand());
         commands.put(CommandType.CHECKPRESCRIPTION, new CheckPrescriptionCommand());
         commands.put(CommandType.RECHARGEBALANCE, new RechargeBalanceCommand());
-        commands.put(CommandType.VIEWORDERS, new OrderCommand());
+        commands.put(CommandType.USERORDERS, new UserOrdersCommand());
+        commands.put(CommandType.RENEWREQUEST, new RenewRequestCommand());
+        commands.put(CommandType.CREATEPRESCRIPTION, new CreatePrescriptionCommand());
+        commands.put(CommandType.PROCESSREQUEST, new ProcessRequestCommand());
         LOGGER.info("Command container was successfully initialized. " +
                 "Total number of commands: " + commands.size());
     }

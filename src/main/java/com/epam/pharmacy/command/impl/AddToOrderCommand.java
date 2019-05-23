@@ -12,15 +12,14 @@ import jdk.nashorn.internal.ir.Optimistic;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.swing.text.View;
 import java.time.LocalDate;
-import java.util.Optional;
 
 public class AddToOrderCommand implements Command {
 
     @Override
     public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         try(ServiceFactory factory = new ServiceFactory()){
+            factory.startTransaction();
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute(User.USER);
             Integer user_id = user.getId();
@@ -30,6 +29,7 @@ public class AddToOrderCommand implements Command {
             Order order = new Order(date, user_id, medicine_id, false);
             boolean result = orderService.create(order);
             request.setAttribute("result", result);
+            factory.commit();
         }
         return ViewCatalogCommand.REDIRECT_VIEW_CATALOG;
     }

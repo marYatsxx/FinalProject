@@ -10,6 +10,7 @@ public class BuilderFactory {
     private final Builder<Medicine> medicineBuilder = new MedicineBuilder();
     private final Builder<Prescription> prescriptionBuilder = new PrescriptionBuilder();
     private final Builder<Order> orderBuilder = new OrderBuilder();
+    private final Builder<Request> requestBuilder = new RequestBuilder();
 
     public Builder<User> getUserBuilder(){
         return userBuilder;
@@ -29,5 +30,9 @@ public class BuilderFactory {
 
     public Builder<Order> getOrderBuilder() {
         return orderBuilder;
+    }
+
+    public Builder<Request> getRequestBuilder(){
+        return requestBuilder;
     }
 }

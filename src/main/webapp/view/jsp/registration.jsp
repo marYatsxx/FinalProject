@@ -62,7 +62,7 @@
                             <br/>
                         </div>
                         <br/>
-                        <div class="register"><input id="button" type="submit" value="Register"></div>
+                        <div class="submit_button"><input id="button" type="submit" value="Register"></div>
                     </form>
                 </div>
                 <jsp:include page="element/menu.jsp"/>

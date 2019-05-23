@@ -1,5 +1,6 @@
 package com.epam.pharmacy.entity;
 
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class Medicine implements Identifiable {
@@ -14,10 +15,10 @@ public class Medicine implements Identifiable {
     private Integer id;
     private String name;
     private String dosage;
-    private double price;
+    private BigDecimal price;
     private boolean needsPrescription;
 
-    public Medicine(Integer id, String name, String dosage, double price, boolean needsPrescription) {
+    public Medicine(Integer id, String name, String dosage, BigDecimal price, boolean needsPrescription) {
         this.id = id;
         this.name = name;
         this.dosage = dosage;
@@ -25,7 +26,7 @@ public class Medicine implements Identifiable {
         this.needsPrescription = needsPrescription;
     }
 
-    public Medicine(String name, String dosage, double price, boolean needsPrescription) {
+    public Medicine(String name, String dosage, BigDecimal price, boolean needsPrescription) {
         this.name = name;
         this.dosage = dosage;
         this.price = price;
@@ -40,7 +41,7 @@ public class Medicine implements Identifiable {
         return dosage;
     }
 
-    public double getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
@@ -59,7 +60,7 @@ public class Medicine implements Identifiable {
         if (o == null || getClass() != o.getClass()) return false;
         Medicine medicine = (Medicine) o;
         return dosage == medicine.dosage &&
-                Double.compare(medicine.price, price) == 0 &&
+                price.compareTo(medicine.price) == 0 &&
                 needsPrescription == medicine.needsPrescription &&
                 Objects.equals(id, medicine.id) &&
                 Objects.equals(name, medicine.name);

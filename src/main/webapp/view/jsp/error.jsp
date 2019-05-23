@@ -7,6 +7,13 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <style>
+    img{
+        display: block;
+        float: right;
+        width: 200px;
+        height: 200px;
+        text-align: center;
+    }
     <%@include file='../css/style.css' %>
 </style>
 <body>
@@ -15,19 +22,9 @@
         <jsp:include page="element/header.jsp"/>
         <div class="content">
             <div class="content_resize">
-                <div class="mainbar">
-                    <p>This is error page... It seems like... something happened<3</p>
-                    <c:out value="${requestScope.error}"/>
-                    <c:set var="code" value="${requestScope['javax.servlet.error.status_code']}" />
-                    <c:set var="message" value="${requestScope['javax.servlet.error.message']}" />
-                    <c:if test="${not empty code}">
-                        <h3>Error code: <c:out value="${code}" /></h3>
-                    </c:if>
-                    <c:if test="${not empty message}">
-                        <h3><c:out value="${message}" /></h3>
-                    </c:if>
-                </div>
-                <div class="clr"></div>
+                <h1>ERROR</h1>
+                <h2 style="text-align: center">Page not found</h2>
+                <img src="view/images/error.png">
             </div>
         </div>
     </div>

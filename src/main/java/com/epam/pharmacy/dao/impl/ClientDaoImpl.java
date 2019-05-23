@@ -8,6 +8,7 @@ import com.epam.pharmacy.exception.DaoException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
@@ -57,14 +58,14 @@ public class ClientDaoImpl extends AbstractDao<ClientAccount> implements ClientD
     @Override
     public void create(ClientAccount account) throws DaoException {
         Optional<Integer> id = Optional.ofNullable(account.getId());
-        double balance = account.getBalance();
+        BigDecimal balance = account.getBalance().setScale(2, BigDecimal.ROUND_DOWN);
         executeUpdate(CREATE_ACCOUNT, id.get(), balance);
         LOGGER.info("Client account has been created successfully");
     }
 
     public boolean update(ClientAccount account) throws DaoException {
         Optional<Integer> id = Optional.ofNullable(account.getId());
-        double balance = account.getBalance();
+        BigDecimal balance = account.getBalance().setScale(2, BigDecimal.ROUND_DOWN);
         executeUpdate(UPDATE_ACCOUNT, balance, id.get());
         LOGGER.info("Client account № " + id + ". Update has been executed successfully");
         return true;

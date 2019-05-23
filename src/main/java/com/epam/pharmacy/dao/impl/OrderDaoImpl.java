@@ -1,5 +1,6 @@
 package com.epam.pharmacy.dao.impl;
 
+import com.epam.pharmacy.dao.Dao;
 import com.epam.pharmacy.entity.builder.Builder;
 import com.epam.pharmacy.dao.AbstractDao;
 import com.epam.pharmacy.dao.OrderDao;
@@ -18,6 +19,7 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
 
     private static final String FIND_ALL_ORDERS = "SELECT * FROM `order`;";
     private static final String CREATE_ORDER = "INSERT INTO `order` VALUES(default, ?, ?, ?, ?);";
+    private static final String UPDATE_ORDER_STATUS = "UPDATE `order` SET `order`.paid=? WHERE order_id=?;";
     private static final String REMOVE_ORDER_BY_ID = "DELETE FROM `order` WHERE order_id = ?;";
     private static final String FIND_ORDER_BY_ID = "SELECT * FROM `order` WHERE order_id = ?;";
     private static final String FIND_ORDER_BY_CLIENT_ID = "SELECT * FROM `order` WHERE client_id = ?;";
@@ -73,5 +75,10 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
         boolean paid = item.isPaid();
         executeUpdate(CREATE_ORDER, date, clientId, medicineId, paid);
         LOGGER.info("Order has been created successfully");
+    }
+
+    @Override
+    public void updateOrderStatusById(boolean paid, int id) throws DaoException {
+        executeUpdate(UPDATE_ORDER_STATUS, paid, id);
     }
 }

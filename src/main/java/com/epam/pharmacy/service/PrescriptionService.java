@@ -8,7 +8,7 @@ import com.epam.pharmacy.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
-import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 public class PrescriptionService {
@@ -29,10 +29,38 @@ public class PrescriptionService {
         }
     }
 
+    public Optional<Prescription> findById(int id) throws ServiceException {
+        try {
+            PrescriptionDao prescriptionDao = factory.getPrescriptionDao();
+            return prescriptionDao.findById(id);
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public List<Prescription> findPrescriptionByClientId(int id) throws ServiceException {
+        try {
+            PrescriptionDao prescriptionDao = factory.getPrescriptionDao();
+            return prescriptionDao.findPrescriptionByClientId(id);
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+
     public Optional<Prescription> findPrescriptionByClientAndMedicine(int clientId, int medicineId) throws ServiceException{
         try{
             PrescriptionDao prescriptionDao = factory.getPrescriptionDao();
             return prescriptionDao.findPrescriptionByClientAndMedicine(clientId, medicineId);
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public List<Prescription> findPrescriptionByDoctorId(int id) throws ServiceException {
+        try {
+            PrescriptionDao prescriptionDao = factory.getPrescriptionDao();
+            return prescriptionDao.findPrescriptionByDoctorId(id);
         } catch (DaoException e){
             throw new ServiceException(e.getMessage());
         }

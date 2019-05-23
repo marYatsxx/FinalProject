@@ -16,10 +16,9 @@ import java.util.Optional;
 public class LoginCommand implements Command {
     private static final Logger LOGGER = LogManager.getLogger(LoginCommand.class);
 
-    private static final String FORWARD_LOGIN_PAGE = "/view/jsp/login.jsp";
+    public static final String FORWARD_LOGIN_PAGE = "/view/jsp/login.jsp";
     private static final String REDIRECT_VIEW_HOMEPAGE = "pharmacy?command=viewHomePage";
     public static final String REDIRECT_LOGIN_PAGE = "pharmacy?command=login";
-
     private static final String INVALID_LOGIN_OR_PASSWORD = "Invalid login or password.";
 
     @Override
@@ -30,6 +29,7 @@ public class LoginCommand implements Command {
     @Override
     public String doPost(HttpServletRequest request, HttpServletResponse response) throws ServiceException{
         try (ServiceFactory factory = new ServiceFactory()) {
+            factory.startTransaction();
             UserService userService = factory.getUserService();
             String login = request.getParameter(User.LOGIN);
             String password = request.getParameter(User.PASSWORD);
@@ -39,8 +39,10 @@ public class LoginCommand implements Command {
                 session.setAttribute(User.USER, user.get());
             } else {
                 session.setAttribute("error", INVALID_LOGIN_OR_PASSWORD);
+                factory.rollback();
                 return REDIRECT_LOGIN_PAGE;
             }
+            factory.commit();
         }
         return REDIRECT_VIEW_HOMEPAGE;
     }

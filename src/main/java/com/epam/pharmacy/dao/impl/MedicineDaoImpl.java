@@ -8,6 +8,7 @@ import com.epam.pharmacy.exception.DaoException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.List;
 import java.util.Optional;
@@ -77,7 +78,7 @@ public class MedicineDaoImpl extends AbstractDao<Medicine> implements MedicineDa
         Optional<Integer> id = Optional.ofNullable(item.getId());
         String name = item.getName();
         String dosage = item.getDosage();
-        double price = item.getPrice();
+        BigDecimal price = item.getPrice().setScale(2, BigDecimal.ROUND_DOWN);
         boolean needs_prescription = item.needsPrescription();
         if(id.isPresent()){
             executeUpdate(UPDATE_MEDICINE, name, dosage, price, needs_prescription, id.get());

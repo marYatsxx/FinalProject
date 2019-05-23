@@ -1,6 +1,8 @@
 .error{
     color: red;
-    font:normal 14px/1.6em Georgia, "Times New Roman", Times, serif
+    font:normal 14px/1.6em Georgia, "Times New Roman", Times, serif;
+    display: table-caption;
+    width: max-content;
 }
 body {
     margin:0; padding:0;
@@ -33,7 +35,7 @@ a {
     color:#30588c; text-decoration:underline
 }
 
-.register p{
+.submit_button p{
     float: left;
     margin-left: 20px;
     text-align: left;
@@ -43,7 +45,7 @@ a {
 .info{float: left;}
 .info p{
     display: block;
-    margin-left: 70px;
+    margin-left: 50px;
     text-align: left;
     font:normal 16px/1.8em Georgia, "Times New Roman", Times, serif;
 }
@@ -58,6 +60,7 @@ a {
     border: none;
     color: white;
     padding: 10px 30px;
+    margin: 3px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
@@ -111,7 +114,7 @@ a {
     margin-left: 20px;
 }
 .content .mainbar{
-    padding:24px 23px 24px 40px;
+    padding:24px 23px 24px 23px;
 }
 .content .mainbar .article, .content .sidebar .gadget {margin:0; padding:0 0 16px 0}
 
@@ -140,7 +143,7 @@ p{
 label {float:left; padding-right:10px;}
 .form-wrap{float: left; margin-left: 200px;}
 
-.register {
+.submit_button {
     clear: both;
     text-align: center;
     margin: 0 auto;

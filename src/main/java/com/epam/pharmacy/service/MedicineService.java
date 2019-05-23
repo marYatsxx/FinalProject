@@ -46,4 +46,22 @@ public class MedicineService {
             throw new ServiceException(e.getMessage());
         }
     }
+
+    public Optional<Medicine> findById(int id) throws ServiceException {
+        try {
+            MedicineDao medicineDao = factory.getMedicineDao();
+            return medicineDao.findById(id);
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public List<Medicine> findMedicineWithPrescription() throws ServiceException {
+        try {
+            MedicineDao medicineDao = factory.getMedicineDao();
+            return medicineDao.findMedicineWithPrescription();
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage());
+        }
+    }
 }

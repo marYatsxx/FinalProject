@@ -11,6 +11,7 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.Optional;
 
 public class RechargeBalanceCommand implements Command {
@@ -28,13 +29,18 @@ public class RechargeBalanceCommand implements Command {
     @Override
     public String doPost(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         try (ServiceFactory factory = new ServiceFactory()) {
-            double balance = Double.parseDouble(request.getParameter(ClientAccount.BALANCE));
+            factory.startTransaction();
+            String balance = request.getParameter(ClientAccount.BALANCE);
+            BigDecimal addedAmount = new BigDecimal(balance).setScale(2, BigDecimal.ROUND_DOWN);
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute(User.USER);
             ClientService clientService = factory.getClientService();
             ClientAccount clientAccount = clientService.findById(user.getId()).get();
-            clientAccount.setBalance(balance);
+            BigDecimal currentBalance = clientAccount.getBalance();
+            BigDecimal result = currentBalance.add(addedAmount);
+            clientAccount.setBalance(result);
             clientService.update(clientAccount);
+            factory.commit();
         }
         return REDIRECT_BALANCE_PAGE;
     }

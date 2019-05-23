@@ -16,7 +16,7 @@ import java.util.Optional;
 public class PrescriptionDaoImpl extends AbstractDao<Prescription> implements PrescriptionDao {
     private static final Logger LOGGER = LogManager.getLogger(PrescriptionDaoImpl.class);
 
-    private static final String UPDATE_PRESCRIPTION = "UPDATE prescription SET validity = ?, doctor_id = ? WHERE prescription_id = ?;";
+    private static final String UPDATE_PRESCRIPTION = "UPDATE prescription SET validity = ? WHERE prescription_id = ?;";
     private static final String FIND_ALL_PRESCRIPTIONS = "SELECT * FROM prescription;";
     private static final String CREATE_PRESCRIPTION = "INSERT INTO prescription VALUES(default, ?, ?, ?, ?);";
     private static final String REMOVE_PRESCRIPTION_BY_ID = "DELETE FROM prescription WHERE prescription_id = ?;";
@@ -92,7 +92,7 @@ public class PrescriptionDaoImpl extends AbstractDao<Prescription> implements Pr
         LocalDate validity = item.getValidity();
         int doctorId = item.getDoctorId();
         if(id.isPresent()){
-            executeUpdate(UPDATE_PRESCRIPTION, validity, doctorId, id.get());
+            executeUpdate(UPDATE_PRESCRIPTION, validity, id.get());
             LOGGER.info("Prescription № " + id + ". Update has been executed successfully");
         } else {
             int clientId = item.getClientId();

@@ -19,7 +19,7 @@ public class Prescription implements Identifiable {
     private Integer doctorId;
     private Integer medicineId;
 
-    public Prescription(Integer id, Integer clientId, LocalDate validity, Integer doctorId, Integer medicineId) {
+    public Prescription(Integer id, Integer clientId, LocalDate validity, Integer medicineId, Integer doctorId) {
         this.id = id;
         this.clientId = clientId;
         this.doctorId = doctorId;
@@ -27,7 +27,7 @@ public class Prescription implements Identifiable {
         this.medicineId = medicineId;
     }
 
-    public Prescription(Integer clientId, LocalDate validity, Integer doctorId, Integer medicineId) {
+    public Prescription(Integer clientId, LocalDate validity, Integer medicineId, Integer doctorId) {
         this.clientId = clientId;
         this.doctorId = doctorId;
         this.validity = validity;
@@ -53,6 +53,10 @@ public class Prescription implements Identifiable {
 
     public Integer getMedicineId() {
         return medicineId;
+    }
+
+    public void setValidity(LocalDate validity){
+        this.validity = validity;
     }
 
     @Override

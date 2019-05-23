@@ -10,7 +10,7 @@ public class LogoutCommand implements Command {
     @Override
     public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         request.getSession().invalidate();
-        return "/view/jsp/login.jsp";
+        return LoginCommand.FORWARD_LOGIN_PAGE;
     }
 
     @Override

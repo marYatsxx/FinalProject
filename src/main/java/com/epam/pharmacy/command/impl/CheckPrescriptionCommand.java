@@ -20,6 +20,7 @@ public class CheckPrescriptionCommand implements Command {
     @Override
     public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         try(ServiceFactory factory = new ServiceFactory()){
+            factory.startTransaction();
             HttpSession session = request.getSession();
             User user = (User) session.getAttribute(User.USER);
             Integer user_id = user.getId();
@@ -30,6 +31,7 @@ public class CheckPrescriptionCommand implements Command {
             boolean hasPrescription = prescription.isPresent();
             request.setAttribute(Medicine.ID, medicineId);
             request.setAttribute(HAS_PRESCRIPTION, hasPrescription);
+            factory.commit();
         }
         return ViewCatalogCommand.REDIRECT_VIEW_CATALOG;
     }

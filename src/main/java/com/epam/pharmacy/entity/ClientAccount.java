@@ -1,22 +1,24 @@
 package com.epam.pharmacy.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Objects;
 
 public class ClientAccount implements Identifiable, Serializable {
     private static final long serialVersionUID = 12345L;
 
+    public static final String CLIENT = "client";
     public static final String ID = "user_id";
     public static final String BALANCE = "balance";
 
     private Integer userId;
-    private double balance;
+    private BigDecimal balance;
 
-    public ClientAccount(double balance){
+    public ClientAccount(BigDecimal balance){
         this.balance = balance;
     }
 
-    public ClientAccount(Integer userId, double balance) {
+    public ClientAccount(Integer userId, BigDecimal balance) {
         this.userId = userId;
         this.balance = balance;
     }
@@ -30,11 +32,11 @@ public class ClientAccount implements Identifiable, Serializable {
         this.userId = userId;
     }
 
-    public double getBalance() {
+    public BigDecimal getBalance() {
         return balance;
     }
 
-    public void setBalance(double balance) {
+    public void setBalance(BigDecimal balance) {
         this.balance = balance;
     }
 
@@ -44,7 +46,7 @@ public class ClientAccount implements Identifiable, Serializable {
         if (o == null || getClass() != o.getClass()) return false;
         ClientAccount that = (ClientAccount) o;
         return userId == that.userId &&
-                Double.compare(that.balance, balance) == 0;
+                balance.compareTo(that.balance) == 0;
     }
 
     @Override

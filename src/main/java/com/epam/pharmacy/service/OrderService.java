@@ -8,6 +8,7 @@ import com.epam.pharmacy.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.Optional;
 
 public class OrderService {
@@ -28,6 +29,24 @@ public class OrderService {
         }
     }
 
+    public Optional<Order> findById(int id) throws ServiceException {
+        try{
+            OrderDao orderDao = factory.getOrderDao();
+            return orderDao.findById(id);
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public List<Order> findOrderByClientId(int id) throws ServiceException {
+        try{
+            OrderDao orderDao = factory.getOrderDao();
+            return orderDao.findOrderByClientId(id);
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
     public Optional<Order> findNotPaidOrderByClientId(int id) throws ServiceException{
         try{
             OrderDao orderDao = factory.getOrderDao();
@@ -35,6 +54,21 @@ public class OrderService {
         } catch (DaoException e){
             throw new ServiceException(e.getMessage());
         }
+    }
 
+    public boolean updateOrderStatusById(boolean paid, int id) throws ServiceException{
+        try{
+            OrderDao orderDao = factory.getOrderDao();
+            Optional<Order> order = findById(id);
+            boolean status = order.get().isPaid();
+            if(status==paid){
+                return false;
+            } else {
+                orderDao.updateOrderStatusById(paid, id);
+                return true;
+            }
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage());
+        }
     }
 }

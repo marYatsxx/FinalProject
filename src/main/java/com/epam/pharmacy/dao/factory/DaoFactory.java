@@ -45,6 +45,11 @@ public class DaoFactory {
         return new OrderDaoImpl(connection, orderBuilder);
     }
 
+    public RequestDao getRequestDao(){
+        Builder<Request> requestBuilder = builderFactory.getRequestBuilder();
+        return new RequestDaoImpl(connection, requestBuilder);
+    }
+
     public Connection getConnection() {
         return connection;
     }

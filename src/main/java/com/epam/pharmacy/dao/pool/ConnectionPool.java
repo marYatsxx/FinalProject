@@ -71,7 +71,7 @@ public class ConnectionPool {
             for (int i = 0; i < poolSize; i++) {
                 pool.add(DriverManager.getConnection(url, user, password));
             }
-            LOGGER.info("Connection pool was created successfully");
+            LOGGER.trace("Connection pool was created successfully");
         } catch (ClassNotFoundException | SQLException e) {
             throw new ConnectionPoolException(e.getMessage());
         }

@@ -54,6 +54,10 @@ public class Order implements Identifiable {
         return paid;
     }
 
+    public void setPaid(boolean paid){
+        this.paid = paid;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

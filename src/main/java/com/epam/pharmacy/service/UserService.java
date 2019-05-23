@@ -8,6 +8,7 @@ import com.epam.pharmacy.exception.ServiceException;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
+import java.util.List;
 import java.util.Optional;
 
 public class UserService {
@@ -83,6 +84,15 @@ public class UserService {
         try {
             UserDao userDao = factory.getUserDao();
             return userDao.findUserByLogin(login);
+        } catch (DaoException e){
+            throw new ServiceException(e.getMessage());
+        }
+    }
+
+    public List<User> findAllClients() throws ServiceException {
+        try {
+            UserDao userDao = factory.getUserDao();
+            return userDao.findAllClients();
         } catch (DaoException e){
             throw new ServiceException(e.getMessage());
         }

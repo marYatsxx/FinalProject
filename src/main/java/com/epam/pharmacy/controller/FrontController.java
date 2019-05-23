@@ -26,7 +26,7 @@ public class FrontController extends HttpServlet {
         process(request, response, ActionType.POST);
     }
 
-    private String process(HttpServletRequest request, HttpServletResponse response, ActionType actionType)
+    private void process(HttpServletRequest request, HttpServletResponse response, ActionType actionType)
                                                                                 throws ServletException, IOException {
         String command = request.getParameter("command");
         String page;
@@ -42,8 +42,8 @@ public class FrontController extends HttpServlet {
             e.printStackTrace();
             request.setAttribute("error", e.getMessage());
             page = "/view/jsp/error.jsp";
+            dispatch(request, response, page);
         }
-        return page;
     }
 
     private void dispatch(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {

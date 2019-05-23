@@ -25,7 +25,7 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String CREATE_USER = "INSERT INTO user VALUES(default, ?, ?, ?, ?, ?);";
     private static final String UPDATE_USER_INFO = "UPDATE user SET login = ?, password = ?, name = ?, surname = ? WHERE user_id = ?;";
     private static final String FIND_USER_BY_LOGIN= "SELECT * FROM user WHERE login = ?;";
-
+    private static final String FIND_ALL_CLIENTS= "SELECT * FROM user WHERE user_role_id = 3;";
 
     public UserDaoImpl(Connection connection, Builder<User> builder) {
         super(connection, builder);
@@ -45,6 +45,11 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     @Override
     public Optional<User> findUserByLogin(String login) throws DaoException {
         return executeQueryForSingleResult(FIND_USER_BY_LOGIN, login);
+    }
+
+    @Override
+    public List<User> findAllClients() throws DaoException{
+        return executeQuery(FIND_ALL_CLIENTS);
     }
 
     @Override

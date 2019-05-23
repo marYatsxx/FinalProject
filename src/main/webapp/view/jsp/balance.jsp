@@ -24,30 +24,36 @@
                             <form name="recharge" method="POST" action="pharmacy">
                                 <div class="form-wrap">
                                     <input type="hidden" name="command" value="rechargeBalance"/>
-                                    <label for="card">Card code</label>
-                                    <input type="text" name="card" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"
-                                           required/><br/>
-                                    <label for="validity">Card validity</label>
-                                    <input type="text" name="validity" pattern="[0-9]{2}/[0-9]{2}" required/><br/>
-                                    <label for="balance">Amount to recharge</label>
-                                    <input type="text" name="balance" pattern="[0-9]*.[0-9]*]{2}" required/><br/>
                                     <br/>
+                                    <div class="field">
+                                        <label for="card">Card code</label>
+                                        <input type="text" name="card" pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}"
+                                               required/>
+                                    </div>
+                                    <div class="field">
+                                        <label for="validity">Card validity</label>
+                                        <input type="text" name="validity" pattern="[0-9]{2}/[0-9]{2}" required/>
+                                    </div>
+                                    <div class="field">
+                                        <label for="balance">Amount to recharge</label>
+                                        <input type="text" name="balance" pattern="[0-9]*.[0-9]*]{2}" required/><br/>
+                                        <br/>
+                                    </div>
                                 </div>
-                                <input id="button" type="submit" value="Recharge"/>
+                                <div class="submit_button"><input id="button" type="submit" value="Recharge"/></div>
                             </form>
                         </div>
-                        <a href="#failure">failure</a>
-                        <c:if test="${result==false}">
-                            <a href="#failure">failure</a>
+                        <c:if test="${requestScope.result==false}">
+                            <c:redirect url="pharmacy?command=rechargeBalance#failure"/>
+
                         </c:if>
-                        <c:if test="${result==true}">
-                            <a href="#success">success</a>
-                            <c:redirect url="#success"/>
+                        <c:if test="${requestScope.result==true}">
+                            <c:redirect url="pharmacy?command=rechargeBalance#success"/>
                         </c:if>
                         <div id="success">
                             <div class="window">
                                 <br/>
-                                <h2>The operation completed successfully.</h2>
+                                <h2>The operation has completed successfully.</h2>
                                 <br/>
                                 <a href="pharmacy?command=viewProfile" class="win_button">OK</a>
                             </div>

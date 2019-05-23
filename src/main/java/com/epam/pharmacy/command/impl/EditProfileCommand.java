@@ -44,6 +44,7 @@ public class EditProfileCommand implements Command {
             if(!password.equals(repeatedPassword)){
                 session.setAttribute("password_error", PASSWORD_ERROR);
                 LOGGER.info("Error: password and repeated password not equal.");
+                factory.rollback();
                 return REDIRECT_EDIT_PROFILE;
             } else {
                 session.removeAttribute("password_error");
@@ -56,6 +57,7 @@ public class EditProfileCommand implements Command {
             if(!userService.create(updatedUser)){
                 LOGGER.info("Error: can not update user. User with login " + user.getLogin() + " already exists");
                 session.setAttribute("login_error", USER_REGISTRATION_ERROR);
+                factory.rollback();
                 return REDIRECT_EDIT_PROFILE;
             } else {
                 session.removeAttribute("login_error");

@@ -12,8 +12,22 @@
     left: 0;
     margin: auto;
 }
+h2 {
+    color: white;
+}
+#prescriptionCheck, #confirmation, #ok, #notFound, #success, #failure, #payment, #empty_choice, #renewRequest {
+    background: rgba(102, 102, 102, 0.5);
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: none;
+}
 
-#prescriptionCheck:target, #confirmation:target, #ok:target, #notFound:target, #success:target, #failure:target {
+#prescriptionCheck:target, #confirmation:target, #ok:target, #notFound:target, #success:target, #failure:target,
+#payment:target, #empty_choice:target, #renewRequest:target {
     display: block;
 }
 

@@ -4,11 +4,12 @@
 <html>
 <head>
     <title>Online-Pharmacy</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <style>
     <%@include file='../../view/css/style.css' %>
     <%@include file='../../view/css/window.css' %>
+    <%@include file='../../view/css/table.css' %>
 </style>
 <body>
 <div class="main">
@@ -18,85 +19,88 @@
             <div class="content_resize">
                 <div class="mainbar">
                     <h1>My Orders</h1>
-                    <div class="catalog">
-                        <c:forEach var="med" items="${medicine_list}" varStatus="count">
-                            <div class="product-item">
-                                <img src="view/images/medicine.jpg">
-                                <div class="product-list">
-                                    <h3><c:out value="${med.getName()}"/> <c:out value="${med.getDosage()}"/></h3>
-                                    <span class="price"><c:out value="${med.getPrice()}"/></span>
-                                    <c:if test="${med.needsPrescription()==true}">
-                                        <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}&medicine_id=${med.getId()}#prescriptionCheck"
-                                           class="button">Buy</a>
-                                    </c:if>
-                                    <c:if test="${med.needsPrescription()==false}">
-                                        <a href="pharmacy?command=viewCatalog&pageCount=${pageCount}&medicine_id=${med.getId()}#confirmation"
-                                           class="button">Buy</a>
-                                    </c:if>
-                                </div>
+                    <div class="order" style="width: fit-content;">
+                        <form action="pharmacy" method="post">
+                            <table>
+                                <tr>
+                                    <th>№</th>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Select</th>
+                                </tr>
+                                <c:forEach var="order" items="${orders}" varStatus="status">
+                                    <tr>
+                                        <td><c:out value="${order.getId()}"/></td>
+                                        <c:set var="medicine" value="${medicines.get(status.index)}"/>
+                                        <td><c:out value="${medicine.getName()}"/>
+                                            <c:out value="${medicine.getDosage()}"/></td>
+                                        <td><c:out value="${medicine.getPrice()}"/></td>
+                                        <td><c:out value="${order.getDate()}"/></td>
+                                        <c:if test="${order.isPaid()==false}">
+                                            <td>not paid</td>
+                                            <td><input type="checkbox" name="select" value="${order.getId()}"></td>
+                                        </c:if>
+                                        <c:if test="${order.isPaid()==true}">
+                                            <td>paid</td>
+                                        </c:if>
+                                    </tr>
+                                </c:forEach>
+                            </table>
+                            <br/>
+                            <input type="hidden" name="command" value="userOrders"/>
+                            <div class="submit_button">
+                                <a id="button" href="#payment">Pay</a>
                             </div>
-
-                            <div id="prescriptionCheck">
+                            <div id="payment">
                                 <div class="window">
-                                    <h2>This medicine needs prescription.</h2>
-                                    <p>Click the button to check prescription availability</p>
-                                    <form>
-                                        <input type="hidden" name="command" value="checkPrescription" />
-                                        <c:set var="medicine_id" value="${requestScope.medicine_id}"/>
-                                        <input type="hidden" name="medicine_id" value="${medicine_id}"/>
-                                        <br/>
-                                        <input class="win_button" type="submit" value="Check"/>
-                                        <a href="#" class="win_button">Close</a>
-                                    </form>
+                                    <h2>Purchase confirmation</h2>
+                                    <p>Do you want to buy selected products?</p>
+                                    <br/>
+                                    <input class="win_button" type="submit" value="Buy">
+                                    <a href="#" class="win_button">Cancel</a>
                                 </div>
                             </div>
-                            <div id="confirmation">
-                                <div class="window">
-                                    <br/>
-                                    <h2>Do you want to buy this medicine?</h2>
-                                    <br/>
-                                    <form>
-                                        <input type="hidden" name="command" value="addToOrder"/>
-                                        <c:set var="medicine_id" value="${medicine_id}"/>
-                                        <input type="hidden" name="medicine_id" value="${medicine_id}"/>
-                                        <input class="win_button" type="submit" value="Buy"/>
-                                        <a href="#" class="win_button">Close</a>
-                                    </form>
-                                </div>
-                            </div>
-                            <c:if test="${requestScope.containsValue(result)}">
-                                <c:redirect url="/pharmacy?command=viewCatalog&pageCount=${pageCount}#ok"/>
+                            <c:set var="success" value="success"/>
+                            <c:if test="${requestScope.result==success}">
+                                <c:redirect url="pharmacy?command=userOrders#success"/>
                             </c:if>
-                            <c:if test="${requestScope.containsValue(hasPrescription)}">
-                                <c:if test="${hasPrescription==false}">
-                                    <c:redirect url="/pharmacy?command=viewCatalog&pageCount=${pageCount}#notFound"/>
-                                </c:if>
-                                <c:if test="${hasPrescription==true}">
-                                    <c:redirect url="pharmacy?command=viewCatalog&pageCount=${pageCount}&medicine_id=${medicine_id}#confirmation"/>
-                                </c:if>
-                            </c:if>
-                            <div id="ok">
+                            <div id="success">
                                 <div class="window">
                                     <br/>
-                                    <h2>Item is added to order. You can pay for the order in your account.</h2>
+                                    <h2>Payment operation has completed successfully.</h2>
                                     <br/>
                                     <a href="#" class="win_button">OK</a>
                                 </div>
                             </div>
-                            <div id="notFound">
+                            <c:set var="failure" value="failure"/>
+                            <c:if test="${requestScope.result==failure}">
+                                <c:redirect url="pharmacy?command=userOrders#failure"/>
+                            </c:if>
+                            <div id="failure">
                                 <div class="window">
                                     <br/>
-                                    <h2>Prescription not found.</h2>
+                                    <h2>Your account has insufficient funds. You can recharge it or cancel the purchase.</h2>
                                     <br/>
-                                    <a href="#" class="win_button">OK</a>
+                                    <a href="pharmacy?command=rechargeBalance" class="win_button">Recharge balance</a>
+                                    <a href="#" class="win_button">Cancel</a>
                                 </div>
                             </div>
-                        </c:forEach>
-                    </div>
-                    <br/>
-                    <div class="arrow">
-                        <a href="pharmacy?command=viewCatalog&pageCount=${pageCount=pageCount-1}"><img src="view/images/arrow.png"></a>
-                        <a href="pharmacy?command=viewCatalog&pageCount=${pageCount=pageCount+2}"><img src="view/images/right_arrow.png"></a>
+                            <c:set var="emptyChoice" value="emptyChoice"/>
+                            <c:if test="${requestScope.result==emptyChoice}">
+                                <c:redirect url="pharmacy?command=userOrders#empty_choice"/>
+                            </c:if>
+                            <div id="empty_choice">
+                                <div class="window">
+                                    <br/>
+                                    <h2>Nothing is chosen</h2>
+                                    <br/> <br/>
+                                    <a href="#" class="win_button">Close</a>
+                                    <br/>
+                                </div>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <jsp:include page="element/menu.jsp"/>
