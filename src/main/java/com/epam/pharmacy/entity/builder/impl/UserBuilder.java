@@ -20,13 +20,16 @@ public class UserBuilder implements Builder<User> {
         User user;
         switch (userRoleId) {
             case 1:
-                user = new User(id, login, password, name, surname, UserRole.PHARMACIST);
+                user = new User(id, login, password, name, surname, UserRole.ADMIN);
                 break;
             case 2:
                 user = new User(id, login, password, name, surname, UserRole.DOCTOR);
                 break;
             case 3:
                 user = new User(id, login, password, name, surname, UserRole.CLIENT);
+                break;
+            case 4:
+                user = new User(id, login, password, name, surname, UserRole.PHARMACIST);
                 break;
             default:
                 throw new BuilderException();

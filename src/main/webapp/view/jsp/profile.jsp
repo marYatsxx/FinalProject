@@ -43,6 +43,11 @@
                             </div>
                             <div class="buttons">
                                 <a href="pharmacy?command=editProfile">Edit profile</a> <br/>
+
+                                <c:if test="${sessionScope.user_role_id==1}">
+                                    <a href="pharmacy?command=showDoctors">Show doctors</a><br/>
+                                    <a href="pharmacy?command=showClients">Show clients</a><br/>
+                                </c:if>
                                 <c:if test="${sessionScope.user_role_id==2}">
                                     <a href="pharmacy?command=createPrescription">New prescription</a><br/>
                                     <a href="pharmacy?command=viewProfile&requests=true">Show renew requests</a><br/>
@@ -50,7 +55,12 @@
                                 <c:if test="${sessionScope.user_role_id==3}">
                                     <a href="pharmacy?command=rechargeBalance">Recharge the balance</a><br/>
                                     <a href="pharmacy?command=userOrders">Open orders</a><br/>
-                                    <a href="pharmacy?command=viewProfile&prescriptions=true">Show prescriptions</a><br/>
+                                    <a href="pharmacy?command=viewProfile&prescriptions=true">Show
+                                        prescriptions</a><br/>
+                                </c:if>
+                                <c:if test="${sessionScope.user_role_id==4}">
+                                    <a href="pharmacy?command=editCatalog">Edit catalog</a><br/>
+                                    <a href="pharmacy?command=showCatalog">Show doctors</a><br/>
                                 </c:if>
                             </div>
                             <c:if test="${requestScope.containsValue(prescriptions)}">
@@ -143,7 +153,8 @@
                                             <td><c:out value="${prescription.getValidity()}"/></td>
                                             <td>
                                                 <span style="display: flex">
-                                                    <a href="pharmacy?command=viewProfile&requests=true&request_id=${request.getId()}&decision=Accept#confirmation" style="margin-right: 5px">Accept</a>
+                                                    <a href="pharmacy?command=viewProfile&requests=true&request_id=${request.getId()}&decision=Accept#confirmation"
+                                                       style="margin-right: 5px">Accept</a>
                                                     <a href="pharmacy?command=viewProfile&requests=true&request_id=${request.getId()}&decision=Reject#confirmation">Reject</a>
                                                 </span>
                                             </td>

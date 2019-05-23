@@ -47,11 +47,11 @@ public class ViewProfileCommand implements Command {
             }
             Optional<String> prescriptions = Optional.ofNullable(request.getParameter(PRESCRIPTIONS));
             if (prescriptions.isPresent()) {
-                viewClientProfile(request, response, userId);
+                viewClientProfile(request, response, userId, factory);
             }
             Optional<String> requests = Optional.ofNullable(request.getParameter(REQUESTS));
             if (requests.isPresent()) {
-                viewDoctorProfile(request, response, userId);
+                viewDoctorProfile(request, response, userId, factory);
             }
             factory.commit();
         }
@@ -63,79 +63,75 @@ public class ViewProfileCommand implements Command {
         throw new UnsupportedOperationException();
     }
 
-    private void viewClientProfile(HttpServletRequest request, HttpServletResponse response, int userId)
-                                                                                        throws ServiceException {
-        try (ServiceFactory factory = new ServiceFactory()) {
-            request.removeAttribute(PRESCRIPTIONS);
-            PrescriptionService prescriptionService = factory.getPrescriptionService();
-            List<Prescription> prescriptionList = prescriptionService.findPrescriptionByClientId(userId);
-            if(prescriptionList.size()==0){
-                LOGGER.info("No prescriptions found");
-                //TODO add attribute
-                return;
-            }
-            MedicineService medicineService = factory.getMedicineService();
-            UserService userService = factory.getUserService();
-            List<Medicine> medicineList = new ArrayList<>();
-            List<User> doctors = new ArrayList<>();
-            for (Prescription prescription : prescriptionList) {
-                Optional<Medicine> medicine = medicineService.findById(prescription.getMedicineId());
-                if (!medicine.isPresent()) {
-                    LOGGER.info("Medicine not found. Prescription will be deleted.");
-                    prescriptionList.remove(prescription);
-                } else {
-                    medicineList.add(medicine.get());
-                }
-                int doctorId = prescription.getDoctorId();
-                User doctor = userService.findById(doctorId).get();
-                doctors.add(doctor);
-            }
-            request.setAttribute(PRESCRIPTIONS, prescriptionList);
-            request.setAttribute(MEDICINES, medicineList);
-            request.setAttribute(DOCTORS, doctors);
-            Optional<String> prescriptionId = Optional.ofNullable(request.getParameter(Prescription.ID));
-            prescriptionId.ifPresent(id -> request.setAttribute(Prescription.ID, id));
+    private void viewClientProfile(HttpServletRequest request, HttpServletResponse response, int userId,
+                                   ServiceFactory factory) throws ServiceException {
+        request.removeAttribute(PRESCRIPTIONS);
+        PrescriptionService prescriptionService = factory.getPrescriptionService();
+        List<Prescription> prescriptionList = prescriptionService.findPrescriptionByClientId(userId);
+        if(prescriptionList.size()==0){
+            LOGGER.info("No prescriptions found");
+            //TODO add attribute
+            return;
         }
+        MedicineService medicineService = factory.getMedicineService();
+        UserService userService = factory.getUserService();
+        List<Medicine> medicineList = new ArrayList<>();
+        List<User> doctors = new ArrayList<>();
+        for (Prescription prescription : prescriptionList) {
+            Optional<Medicine> medicine = medicineService.findById(prescription.getMedicineId());
+            if (!medicine.isPresent()) {
+                LOGGER.info("Medicine not found. Prescription will be deleted.");
+                prescriptionList.remove(prescription);
+            } else {
+                medicineList.add(medicine.get());
+            }
+            int doctorId = prescription.getDoctorId();
+            User doctor = userService.findById(doctorId).get();
+            doctors.add(doctor);
+        }
+        request.setAttribute(PRESCRIPTIONS, prescriptionList);
+        request.setAttribute(MEDICINES, medicineList);
+        request.setAttribute(DOCTORS, doctors);
+        Optional<String> prescriptionId = Optional.ofNullable(request.getParameter(Prescription.ID));
+        prescriptionId.ifPresent(id -> request.setAttribute(Prescription.ID, id));
     }
 
-    private void viewDoctorProfile(HttpServletRequest request, HttpServletResponse response, int userId)
-                                                                                        throws ServiceException {
-        try (ServiceFactory factory = new ServiceFactory()) {
-            request.removeAttribute(REQUESTS);
-            RequestService requestService = factory.getRequestService();
-            List<Request> requests = requestService.findConsideredRequests();
-            PrescriptionService prescriptionService = factory.getPrescriptionService();
-            List<Request> chosenRequests = new ArrayList<>();
-            List<Prescription> chosenPrescriptions = new ArrayList<>();
-            for (Request renewRequest: requests) {
-                Optional<Prescription> prescription = prescriptionService.findById(renewRequest.getPrescriptionId());
-                if(prescription.isPresent()){
-                    int doctorId = prescription.get().getDoctorId();
-                    if(doctorId==userId){
-                        chosenPrescriptions.add(prescription.get());
-                        chosenRequests.add(renewRequest);
-                    }
+    private void viewDoctorProfile(HttpServletRequest request, HttpServletResponse response, int userId,
+                                   ServiceFactory factory) throws ServiceException {
+        request.removeAttribute(REQUESTS);
+        RequestService requestService = factory.getRequestService();
+        List<Request> requests = requestService.findConsideredRequests();
+        PrescriptionService prescriptionService = factory.getPrescriptionService();
+        List<Request> chosenRequests = new ArrayList<>();
+        List<Prescription> chosenPrescriptions = new ArrayList<>();
+        for (Request renewRequest: requests) {
+            Optional<Prescription> prescription = prescriptionService.findById(renewRequest.getPrescriptionId());
+            if(prescription.isPresent()){
+                int doctorId = prescription.get().getDoctorId();
+                if(doctorId==userId){
+                    chosenPrescriptions.add(prescription.get());
+                    chosenRequests.add(renewRequest);
                 }
             }
-            MedicineService medicineService = factory.getMedicineService();
-            List<Medicine> medicineList = new ArrayList<>();
-            UserService userService = factory.getUserService();
-            List<User> clients = new ArrayList<>();
-            for (Prescription prescription : chosenPrescriptions) {
-                Optional<Medicine> medicine = medicineService.findById(prescription.getMedicineId());
-                medicineList.add(medicine.get());
-                Optional<User> client = userService.findById(prescription.getClientId());
-                clients.add(client.get());
-            }
-            request.setAttribute(REQUESTS, chosenRequests);
-            request.setAttribute(DOCTOR_PRESCRIPTIONS, chosenPrescriptions);
-            request.setAttribute(MEDICINES, medicineList);
-            request.setAttribute(CLIENTS, clients);
-
-            Optional<String> decision = Optional.ofNullable(request.getParameter(DECISION));
-            decision.ifPresent(d->request.setAttribute(DECISION, d));
-            Optional<String> requestId = Optional.ofNullable(request.getParameter(Request.ID));
-            requestId.ifPresent(id -> request.setAttribute(Request.ID, id));
         }
+        MedicineService medicineService = factory.getMedicineService();
+        List<Medicine> medicineList = new ArrayList<>();
+        UserService userService = factory.getUserService();
+        List<User> clients = new ArrayList<>();
+        for (Prescription prescription : chosenPrescriptions) {
+            Optional<Medicine> medicine = medicineService.findById(prescription.getMedicineId());
+            medicineList.add(medicine.get());
+            Optional<User> client = userService.findById(prescription.getClientId());
+            clients.add(client.get());
+        }
+        request.setAttribute(REQUESTS, chosenRequests);
+        request.setAttribute(DOCTOR_PRESCRIPTIONS, chosenPrescriptions);
+        request.setAttribute(MEDICINES, medicineList);
+        request.setAttribute(CLIENTS, clients);
+
+        Optional<String> decision = Optional.ofNullable(request.getParameter(DECISION));
+        decision.ifPresent(d->request.setAttribute(DECISION, d));
+        Optional<String> requestId = Optional.ofNullable(request.getParameter(Request.ID));
+        requestId.ifPresent(id -> request.setAttribute(Request.ID, id));
     }
 }

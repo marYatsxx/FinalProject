@@ -69,7 +69,8 @@ public class User implements Identifiable {
 
     public int getUserRoleId() {
         switch (role){
-            case PHARMACIST: return 1;
+            case ADMIN: return 1;
+            case PHARMACIST: return 4;
             case DOCTOR: return 2;
             default: return  3;
         }
