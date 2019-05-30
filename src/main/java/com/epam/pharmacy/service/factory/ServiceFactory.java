@@ -12,78 +12,30 @@ import org.apache.log4j.Logger;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-public class ServiceFactory implements AutoCloseable {
-    private static final Logger LOGGER = LogManager.getLogger(ServiceFactory.class);
-    private Connection connection;
-    DaoFactory factory = new DaoFactory();
-
-    public ServiceFactory(){
-        connection = factory.getConnection();
-    }
+public class ServiceFactory {
 
     public UserService getUserService(){
-        return new UserService(factory);
+        return new UserService();
     }
 
     public ClientService getClientService(){
-        return new ClientService(factory);
+        return new ClientService();
     }
 
     public MedicineService getMedicineService(){
-        return new MedicineService(factory);
+        return new MedicineService();
     }
 
     public OrderService getOrderService(){
-        return new OrderService(factory);
+        return new OrderService();
     }
 
     public PrescriptionService getPrescriptionService(){
-        return new PrescriptionService(factory);
+        return new PrescriptionService();
     }
 
     public RequestService getRequestService(){
-        return new RequestService(factory);
+        return new RequestService();
     }
 
-    public Connection getConnection() {
-        return connection;
-    }
-
-    public void releaseConnection() {
-        try {
-            ConnectionPool connectionPool = ConnectionPool.getInstance();
-            connectionPool.releaseConnection(connection);
-        } catch (ConnectionPoolException e) {
-            LOGGER.error("Can not release connection", e);
-            e.printStackTrace();
-        }
-    }
-
-    public void startTransaction() throws ServiceException {
-        try {
-            connection.setAutoCommit(false);
-        } catch (SQLException e) {
-            throw new ServiceException(e.getMessage());
-        }
-    }
-
-    public void commit()throws ServiceException{
-        try {
-            connection.commit();
-        } catch (SQLException e) {
-            throw new ServiceException(e.getMessage());
-        }
-    }
-
-    public void rollback() throws ServiceException{
-        try{
-            connection.rollback();
-        } catch (SQLException e){
-            throw new ServiceException(e.getMessage());
-        }
-    }
-    @Override
-    public void close() {
-        ConnectionPool.getInstance().releaseConnection(connection);
-    }
 }

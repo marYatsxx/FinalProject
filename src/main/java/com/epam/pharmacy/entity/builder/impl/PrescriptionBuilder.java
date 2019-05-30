@@ -12,7 +12,7 @@ import java.time.LocalDate;
 
 public class PrescriptionBuilder implements Builder<Prescription> {
     @Override
-    public Prescription build(ResultSet resultSet) throws SQLException, BuilderException {
+    public Prescription build(ResultSet resultSet) throws SQLException {
         Integer id = resultSet.getInt(Prescription.ID);
         Integer clientId = resultSet.getInt(Prescription.CLIENT_ID);
         Date date = resultSet.getDate(Prescription.VALIDITY);

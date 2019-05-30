@@ -25,6 +25,7 @@ public class PrescriptionDaoImpl extends AbstractDao<Prescription> implements Pr
     private static final String FIND_PRESCRIPTION_BY_CLIENT_AND_MEDICINE =
             "SELECT * FROM prescription WHERE client_id = ? AND medicine_id=?;";
     private static final String FIND_PRESCRIPTION_BY_DOCTOR_ID = "SELECT * FROM prescription WHERE doctor_id = ?;";
+    private static final String FIND_PRESCRIPTION_BY_MEDICINE_ID = "SELECT * FROM prescription WHERE medicine_id = ?;";
 
     private static final String FIND_VALID_PRESCRIPTIONS = "SELECT * FROM prescription WHERE validity>CURRENT_DATE;;";
     private static final String FIND_INVALID_PRESCRIPTIONS = "SELECT * FROM prescription WHERE validity<CURRENT_DATE;;";
@@ -46,6 +47,11 @@ public class PrescriptionDaoImpl extends AbstractDao<Prescription> implements Pr
     @Override
     public List<Prescription> findPrescriptionByDoctorId(int id) throws DaoException {
         return executeQuery(FIND_PRESCRIPTION_BY_DOCTOR_ID, id);
+    }
+
+    @Override
+    public List<Prescription> findPrescriptionByMedicineId(int id) throws DaoException {
+        return executeQuery(FIND_PRESCRIPTION_BY_MEDICINE_ID, id);
     }
 
     @Override

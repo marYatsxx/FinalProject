@@ -1,4 +1,6 @@
-
+.catalog{
+    margin-left: 30px;
+}
 .product-item {
     width: 200px;
     text-align: center;
@@ -55,9 +57,11 @@
 }
 
 .arrow {
-    float: right;
-    display: flex;
+    display: block;
     margin: 20px;
+    clear: both;
+    margin-top: 50px;
+    text-align: center;
 }
 
 .arrow a img {

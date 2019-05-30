@@ -11,7 +11,7 @@ import java.text.DecimalFormat;
 
 public class MedicineBuilder implements Builder<Medicine> {
     @Override
-    public Medicine build(ResultSet resultSet) throws SQLException, BuilderException {
+    public Medicine build(ResultSet resultSet) throws SQLException{
         Integer id = resultSet.getInt(Medicine.ID);
         String name = resultSet.getString(Medicine.NAME);
         String dosage = resultSet.getString(Medicine.DOSAGE);

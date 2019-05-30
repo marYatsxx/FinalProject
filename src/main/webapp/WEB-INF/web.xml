@@ -31,4 +31,34 @@
         <url-pattern>/*</url-pattern>
         <servlet-name>Pharmacy</servlet-name>
     </filter-mapping>
+
+    <filter>
+        <filter-name>DefaultLanguageFilter</filter-name>
+        <filter-class>com.epam.pharmacy.filter.LanguageFilter</filter-class>
+        <init-param>
+            <param-name>defaultLanguage</param-name>
+            <param-value>ru</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>DefaultLanguageFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+        <servlet-name>Pharmacy</servlet-name>
+    </filter-mapping>
+
+    <filter>
+        <filter-name>UnregisteredUserFilter</filter-name>
+        <filter-class>com.epam.pharmacy.filter.UnregisteredUserFilter</filter-class>
+        <init-param>
+            <param-name>commands</param-name>
+            <param-value>
+                viewHomePage,viewLoginPage,login,changeLanguage,viewCatalog,viewRegister,register
+            </param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>UnregisteredUserFilter</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+
 </web-app>

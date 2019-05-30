@@ -13,14 +13,9 @@ import java.util.Optional;
 
 public class PrescriptionService {
     private static final Logger LOGGER = LogManager.getLogger(PrescriptionService.class);
-    private DaoFactory factory;
-
-    public PrescriptionService(DaoFactory factory){
-        this.factory = factory;
-    }
 
     public boolean create(Prescription prescription) throws ServiceException {
-        try {
+        try (DaoFactory factory = new DaoFactory()) {
             PrescriptionDao prescriptionDao = factory.getPrescriptionDao();
             prescriptionDao.create(prescription);
             return true;
@@ -30,7 +25,7 @@ public class PrescriptionService {
     }
 
     public Optional<Prescription> findById(int id) throws ServiceException {
-        try {
+        try (DaoFactory factory = new DaoFactory()) {
             PrescriptionDao prescriptionDao = factory.getPrescriptionDao();
             return prescriptionDao.findById(id);
         } catch (DaoException e){
@@ -39,7 +34,7 @@ public class PrescriptionService {
     }
 
     public List<Prescription> findPrescriptionByClientId(int id) throws ServiceException {
-        try {
+        try (DaoFactory factory = new DaoFactory()) {
             PrescriptionDao prescriptionDao = factory.getPrescriptionDao();
             return prescriptionDao.findPrescriptionByClientId(id);
         } catch (DaoException e){
@@ -49,7 +44,7 @@ public class PrescriptionService {
 
 
     public Optional<Prescription> findPrescriptionByClientAndMedicine(int clientId, int medicineId) throws ServiceException{
-        try{
+        try (DaoFactory factory = new DaoFactory()) {
             PrescriptionDao prescriptionDao = factory.getPrescriptionDao();
             return prescriptionDao.findPrescriptionByClientAndMedicine(clientId, medicineId);
         } catch (DaoException e){
@@ -58,7 +53,7 @@ public class PrescriptionService {
     }
 
     public List<Prescription> findPrescriptionByDoctorId(int id) throws ServiceException {
-        try {
+        try (DaoFactory factory = new DaoFactory()) {
             PrescriptionDao prescriptionDao = factory.getPrescriptionDao();
             return prescriptionDao.findPrescriptionByDoctorId(id);
         } catch (DaoException e){

@@ -34,7 +34,7 @@ public abstract class AbstractDao<T extends Identifiable> implements Dao<T> {
                     entities.add(builtObject);
                 }
             }
-        } catch (SQLException | BuilderException e) {
+        } catch (SQLException e) {
             throw new DaoException(e.getMessage());
         }
         return entities;

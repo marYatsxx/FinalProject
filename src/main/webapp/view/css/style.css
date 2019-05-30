@@ -1,13 +1,15 @@
 .error{
     color: red;
     font:normal 14px/1.6em Georgia, "Times New Roman", Times, serif;
-    display: table-caption;
-    width: max-content;
 }
 body {
     margin:0; padding:0;
     color:#5f5f5f; font:normal 16px/1.8em Georgia, "Times New Roman", Times, serif;
 }
+.gadget h2{
+    color: #323a3f;
+}
+
 html{height: 100%}
 html, .main {
     padding:0; margin:0; background:#fff
@@ -68,7 +70,7 @@ a {
     cursor: pointer;
 }
 
-#button{
+#button, #button2{
     padding: 5px 20px;
 }
 
@@ -80,20 +82,27 @@ a {
     margin:0 auto; padding:0; width:100%; height:200px
 }
 .header .logo { height:180px; float:left;}
+
 .menu_nav { 
     height:72px; float:right; width:auto; padding-top:110px
 }
-.menu_nav ul { width:auto; list-style:none}
-.menu_nav ul li { margin:0 1px; float:left}
-.menu_nav ul li a { 
+.menu_nav ul { width:auto; list-style:none; display: flex}
+.menu_nav ul li, .menu_nav ul form li { margin:0 1px; float:left}
+.menu_nav ul li a, .menu_nav ul form li button {
     display:block; margin:0; padding:13px 9px 13px 0; color:#fff;
-    text-decoration:none; text-transform:uppercase}
-.menu_nav ul li a span { padding: 15px}
-.menu_nav ul li a:hover, .menu_nav ul li.active a {
-    background:url("view/images/menu_a.png") no-repeat right top; color:darkblue
+    text-decoration:none; text-transform:uppercase; background: none;
+    border: none;
 }
-.menu_nav ul li a:hover span, .menu_nav ul li.active a span {
+
+.menu_nav ul li a span, .menu_nav ul form li button span { padding: 15px;
+    font:normal 16px/1.8em Georgia, "Times New Roman", Times, serif;}
+.menu_nav ul li a:hover, .menu_nav ul li.active a, .menu_nav ul form li button:hover, .menu_nav ul form li.active button {
+    background:url("view/images/menu_a.png") no-repeat right top; color:darkblue; border: none;
+}
+.menu_nav ul li a:hover span, .menu_nav ul li.active a span, .menu_nav ul form li button:hover span,
+.menu_nav ul form li.active button span {
     background-color: aliceblue; opacity: 0.8;
+    border: none;
 }
 
 .content{
@@ -141,7 +150,8 @@ p{
     line-height:25px;
 }
 label {float:left; padding-right:10px;}
-.form-wrap{float: left; margin-left: 200px;}
+.form-wrap{float: left; margin-left: 200px; }
+.form{text-align: -webkit-center;}
 
 .submit_button {
     clear: both;
@@ -182,3 +192,4 @@ ul.ex_menu li a:hover {text-decoration:none}
     color:azure; text-align: center;
     margin:0;padding:4px 0;width:auto;line-height:1.5em
 }
+

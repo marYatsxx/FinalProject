@@ -58,6 +58,22 @@ public class Order implements Identifiable {
         this.paid = paid;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
+
+    public void setMedicineId(Integer medicineId) {
+        this.medicineId = medicineId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

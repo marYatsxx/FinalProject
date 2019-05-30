@@ -12,12 +12,7 @@ public class NoCommand implements Command {
     private static final String ERROR_PAGE = "/view/jsp/error.jsp";
 
     @Override
-    public String doGet(HttpServletRequest request, HttpServletResponse response) {
+    public String execute(HttpServletRequest request, HttpServletResponse response) {
         return ERROR_PAGE;
-    }
-
-    @Override
-    public String doPost(HttpServletRequest request, HttpServletResponse response) {
-        throw new UnsupportedOperationException();
     }
 }

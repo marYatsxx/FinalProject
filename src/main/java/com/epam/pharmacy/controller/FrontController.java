@@ -2,6 +2,7 @@ package com.epam.pharmacy.controller;
 
 import com.epam.pharmacy.command.Command;
 import com.epam.pharmacy.command.CommandManager;
+import com.epam.pharmacy.dao.pool.ConnectionPool;
 import com.epam.pharmacy.util.ActionType;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -32,7 +33,7 @@ public class FrontController extends HttpServlet {
         String page;
         Command action = CommandManager.getCommand(command);
         try {
-            page = action.execute(request, response, actionType);
+            page = action.execute(request, response);
             if(actionType == ActionType.GET){
                 dispatch(request, response, page);
             } else {
@@ -49,5 +50,10 @@ public class FrontController extends HttpServlet {
     private void dispatch(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException, IOException {
         RequestDispatcher dispatcher = getServletContext().getRequestDispatcher(page);
         dispatcher.forward(request, response);
+    }
+
+    @Override
+    public void destroy() {
+        ConnectionPool.getInstance().closeAll();
     }
 }

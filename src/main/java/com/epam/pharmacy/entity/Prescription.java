@@ -59,6 +59,22 @@ public class Prescription implements Identifiable {
         this.validity = validity;
     }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setClientId(Integer clientId) {
+        this.clientId = clientId;
+    }
+
+    public void setDoctorId(Integer doctorId) {
+        this.doctorId = doctorId;
+    }
+
+    public void setMedicineId(Integer medicineId) {
+        this.medicineId = medicineId;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

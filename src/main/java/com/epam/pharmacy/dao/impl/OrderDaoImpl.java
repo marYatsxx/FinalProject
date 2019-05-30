@@ -22,8 +22,10 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     private static final String UPDATE_ORDER_STATUS = "UPDATE `order` SET `order`.paid=? WHERE order_id=?;";
     private static final String REMOVE_ORDER_BY_ID = "DELETE FROM `order` WHERE order_id = ?;";
     private static final String FIND_ORDER_BY_ID = "SELECT * FROM `order` WHERE order_id = ?;";
+    private static final String FIND_ORDER_BY__MEDICINE_ID = "SELECT * FROM `order` WHERE medicine_id = ?;";
     private static final String FIND_ORDER_BY_CLIENT_ID = "SELECT * FROM `order` WHERE client_id = ?;";
     private static final String FIND_NOT_PAID_ORDER_BY_CLIENT_ID = "SELECT * FROM `order` WHERE client_id = ? AND paid=false;";
+    private static final String FIND_ALL_NOT_PAID_ORDERS = "SELECT * FROM `order` WHERE paid=false;";
 
     public OrderDaoImpl(Connection connection, Builder<Order> builder) {
         super(connection, builder);
@@ -35,8 +37,18 @@ public class OrderDaoImpl extends AbstractDao<Order> implements OrderDao {
     }
 
     @Override
-    public Optional<Order> findNotPaidOrderByClientId(int id) throws DaoException {
-        return executeQueryForSingleResult(FIND_NOT_PAID_ORDER_BY_CLIENT_ID, id);
+    public List<Order> findNotPaidOrderByClientId(int id) throws DaoException {
+        return executeQuery(FIND_NOT_PAID_ORDER_BY_CLIENT_ID, id);
+    }
+
+    @Override
+    public List<Order> findAllNotPaidOrders() throws DaoException {
+        return executeQuery(FIND_ALL_NOT_PAID_ORDERS);
+    }
+
+    @Override
+    public List<Order> findOrdersByMedicineId(int id) throws DaoException{
+        return executeQuery(FIND_ORDER_BY__MEDICINE_ID, id);
     }
 
     @Override

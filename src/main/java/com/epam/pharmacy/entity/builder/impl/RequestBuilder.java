@@ -10,7 +10,7 @@ import java.sql.SQLException;
 
 public class RequestBuilder implements Builder<Request> {
     @Override
-    public Request build(ResultSet resultSet) throws SQLException, BuilderException {
+    public Request build(ResultSet resultSet) throws SQLException {
         Integer id = resultSet.getInt(Request.ID);
         Integer prescriptionId = resultSet.getInt(Request.PRESCRIPTION_ID);
         RequestStatus status = RequestStatus.valueOf(resultSet.getString(Request.STATUS).toUpperCase());

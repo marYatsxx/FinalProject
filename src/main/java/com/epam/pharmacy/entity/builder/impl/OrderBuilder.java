@@ -11,7 +11,7 @@ import java.time.LocalDate;
 
 public class OrderBuilder implements Builder<Order> {
     @Override
-    public Order build(ResultSet resultSet) throws SQLException, BuilderException {
+    public Order build(ResultSet resultSet) throws SQLException {
         Integer id = resultSet.getInt(Order.ID);
         Date date = resultSet.getDate(Order.DATE);
         LocalDate orderDate = date.toLocalDate();

@@ -1,0 +1,22 @@
+
+<div class="header">
+    <div class="header_resize">
+        <div class="logo"><h1><a href="pharmacy?command=viewHomePage"><fmt:message key="site.title"/> </a></h1></div>
+        <div class="menu_nav">
+            <ul>
+                <c:if test="${empty sessionScope.user}">
+                    <li><a href="pharmacy?command=viewLoginPage"><span><fmt:message key="button.login"/> </span></a></li>
+                </c:if>
+                <c:if test="${not empty sessionScope.user}">
+                    <li><a href="pharmacy?command=logout"><span><fmt:message key="button.logout"/> </span></a></li>
+                </c:if>
+                <form method="post" action="pharmacy">
+                    <input type="hidden" name="command" value="changeLanguage"/>
+                    <li><button value="en" name="language"><span>EN</span></button></li>
+                    <li><button value="ru" name="language"><span>RU</span></button></li>
+                </form>
+            </ul>
+        </div>
+        <div class="clr"></div>
+    </div>
+</div>

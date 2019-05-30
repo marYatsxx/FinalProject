@@ -21,11 +21,15 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     private static final String FIND_USER_BY_LOGIN_AND_PASSWORD = "SELECT * FROM user WHERE login = ? AND password = ?;";
     private static final String FIND_USER_BY_ID = "SELECT * FROM user WHERE user_id = ?;";
     private static final String FIND_ALL_USERS = "SELECT * FROM user;";
+    private static final String FIND_ALL_CLIENTS= "SELECT * FROM user WHERE user_role_id = 3;";
+    private static final String FIND_ALL_DOCTORS= "SELECT * FROM user WHERE user_role_id = 2;";
+    private static final String FIND_ALL_PHARMACISTS= "SELECT * FROM user WHERE user_role_id = 4;";
     private static final String REMOVE_USER_BY_ID = "DELETE FROM user WHERE user_id = ?;";
-    private static final String CREATE_USER = "INSERT INTO user VALUES(default, ?, ?, ?, ?, ?);";
+    private static final String CREATE_USER = "INSERT INTO user VALUES(default, ?, ?, ?, ?, ?, default);";
     private static final String UPDATE_USER_INFO = "UPDATE user SET login = ?, password = ?, name = ?, surname = ? WHERE user_id = ?;";
     private static final String FIND_USER_BY_LOGIN= "SELECT * FROM user WHERE login = ?;";
-    private static final String FIND_ALL_CLIENTS= "SELECT * FROM user WHERE user_role_id = 3;";
+    private static final String FIND_ALL_UNBLOCKED_CLIENTS= "SELECT * FROM user WHERE blocked = false;";
+    private static final String CHANGE_BLOCKING_STATUS= "UPDATE user SET blocked=? where user_id=?";
 
     public UserDaoImpl(Connection connection, Builder<User> builder) {
         super(connection, builder);
@@ -48,8 +52,23 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
     }
 
     @Override
+    public List<User> findAllUnblockedUsers() throws DaoException{
+        return executeQuery(FIND_ALL_UNBLOCKED_CLIENTS);
+    }
+
+    @Override
     public List<User> findAllClients() throws DaoException{
         return executeQuery(FIND_ALL_CLIENTS);
+    }
+
+    @Override
+    public List<User> findAllDoctors() throws DaoException{
+        return executeQuery(FIND_ALL_DOCTORS);
+    }
+
+    @Override
+    public List<User> findAllPharmacists() throws DaoException{
+        return executeQuery(FIND_ALL_PHARMACISTS);
     }
 
     @Override
@@ -74,6 +93,11 @@ public class UserDaoImpl extends AbstractDao<User> implements UserDao {
         removeById(id);
         LOGGER.info("User has been removed successfully");
         return true;
+    }
+
+    @Override
+    public void changeBlockingStatus(boolean status, int id) throws DaoException{
+        executeUpdate(CHANGE_BLOCKING_STATUS, status, id);
     }
 
     @Override

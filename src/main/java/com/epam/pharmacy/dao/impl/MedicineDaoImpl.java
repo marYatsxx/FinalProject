@@ -79,7 +79,7 @@ public class MedicineDaoImpl extends AbstractDao<Medicine> implements MedicineDa
         String name = item.getName();
         String dosage = item.getDosage();
         BigDecimal price = item.getPrice().setScale(2, BigDecimal.ROUND_DOWN);
-        boolean needs_prescription = item.needsPrescription();
+        boolean needs_prescription = item.isNeedsPrescription();
         if(id.isPresent()){
             executeUpdate(UPDATE_MEDICINE, name, dosage, price, needs_prescription, id.get());
             LOGGER.info("Medicine № " + id + ". Update has been executed successfully");

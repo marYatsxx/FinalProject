@@ -5,6 +5,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -46,21 +47,19 @@ public class ConnectionPool {
     }
 
     public static ConnectionPool getInstance() {
-        if (instance==null){
-            instance = new ConnectionPool();
-            try{
-                instance.createPool();
-            } catch (ConnectionPoolException e){
-                e.printStackTrace();
-                LOGGER.error("Can not create connection pool");
-            }
-        }
-
-        /*if (!init.get()) {
+        if (!init.get()) {
             locker.lock();
-
+            if (instance==null){
+                instance = new ConnectionPool();
+                try{
+                    instance.createPool();
+                } catch (ConnectionPoolException e){
+                    e.printStackTrace();
+                    LOGGER.error("Can not create connection pool");
+                }
+            }
             locker.unlock();
-        }*/
+        }
         return instance;
     }
 
@@ -69,7 +68,7 @@ public class ConnectionPool {
         try {
             Class.forName(driverName);
             for (int i = 0; i < poolSize; i++) {
-                pool.add(DriverManager.getConnection(url, user, password));
+                pool.offer(DriverManager.getConnection(url, user, password));
             }
             LOGGER.trace("Connection pool was created successfully");
         } catch (ClassNotFoundException | SQLException e) {
@@ -81,7 +80,7 @@ public class ConnectionPool {
         Connection connection;
         try {
             connection = pool.take();
-            LOGGER.info("getConnection");
+            LOGGER.trace("getConnection");
         } catch (InterruptedException e) {
            throw new ConnectionPoolException(e.getMessage());
         }
@@ -92,8 +91,18 @@ public class ConnectionPool {
         if (connection != null) {
             try {
                 pool.put(connection);
-                LOGGER.info("releaseConnection");
+                LOGGER.trace("releaseConnection");
             } catch (InterruptedException e) {
+                throw new ConnectionPoolException(e.getMessage());
+            }
+        }
+    }
+
+    public void closeAll() throws ConnectionPoolException{
+        for(Connection connection: pool){
+            try {
+                connection.close();
+            } catch (SQLException e) {
                 throw new ConnectionPoolException(e.getMessage());
             }
         }

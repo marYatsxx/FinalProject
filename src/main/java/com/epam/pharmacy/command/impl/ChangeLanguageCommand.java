@@ -12,12 +12,7 @@ public class ChangeLanguageCommand implements Command {
     private static final String REFERER = "referer";
 
     @Override
-    public String doGet(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
-        return null;
-    }
-
-    @Override
-    public String doPost(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
+    public String execute(HttpServletRequest request, HttpServletResponse response) throws ServiceException {
         String language = request.getParameter(LANGUAGE);
         HttpSession session = request.getSession();
         session.setAttribute(LANGUAGE, language.toLowerCase());

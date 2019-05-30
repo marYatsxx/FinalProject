@@ -1,9 +1,13 @@
 <%@ page contentType="text/html" pageEncoding="utf-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${language}" scope="session"/>
+<fmt:setBundle basename="locale"/>
+
 <html>
 <head>
-    <title>Online-Pharmacy</title>
+    <title><fmt:message key="site.title"/></title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 <style>
@@ -14,77 +18,106 @@
 <body>
 <div class="main">
     <div class="wrap">
-        <jsp:include page="element/header.jsp"/>
+        <%@include file="element/header.jspf"%>
         <div class="content">
             <div class="content_resize">
                 <div class="mainbar">
                     <div class="article">
                         <div class="profile">
-                            <h1>My Profile</h1>
+                            <h1><fmt:message key="menu.profile"/></h1>
                             <hr/>
                             <div class="info">
-                                <p>Name: <c:out value="${sessionScope.name}"/></p>
-                                <p>Surname: <c:out value="${sessionScope.surname}"/></p>
-                                <p>Login: <c:out value="${sessionScope.login}"/></p>
-                                <p>Role:
-                                    <c:choose>
-                                    <c:when test="${sessionScope.user_role_id==1}">
-                                    Pharmacist
-                                    </c:when>
-                                    <c:when test="${sessionScope.user_role_id==2}">
-                                    Doctor
-                                    </c:when>
-                                    <c:when test="${sessionScope.user_role_id==3}">
-                                    Client<br/>
-                                <p>Balance: <c:out value="${sessionScope.balance}"/></p>
+                                <p><fmt:message key="user.name"/>: <c:out value="${sessionScope.name}"/></p>
+                                <p><fmt:message key="user.surname"/>: <c:out value="${sessionScope.surname}"/></p>
+                                <p><fmt:message key="user.login"/>: <c:out value="${sessionScope.login}"/></p>
+                                <p><fmt:message key="user.role"/>:
+                                <c:choose>
+                                <c:when test="${sessionScope.user_role_id==1}">
+                                    <fmt:message key="user.role.admin"/>
+                                </c:when>
+                                <c:when test="${sessionScope.user_role_id==2}">
+                                    <fmt:message key="user.role.doctor"/>
+                                </c:when>
+                                <c:when test="${sessionScope.user_role_id==3}">
+                                    <fmt:message key="user.role.client"/>
+                                    <br/>
+                                    <p><fmt:message key="client.balance"/>: <c:out value="${sessionScope.balance} BYN"/></p>
+                                </c:when>
+                                <c:when test="${sessionScope.user_role_id==4}">
+                                    <fmt:message key="user.role.pharmacist"/>
                                 </c:when>
                                 </c:choose>
                                 </p>
                             </div>
                             <div class="buttons">
-                                <a href="pharmacy?command=editProfile">Edit profile</a> <br/>
-
+                                <a href="pharmacy?command=viewEditProfile"><fmt:message key="button.edit.profile"/></a>
+                                <br/>
                                 <c:if test="${sessionScope.user_role_id==1}">
-                                    <a href="pharmacy?command=showDoctors">Show doctors</a><br/>
-                                    <a href="pharmacy?command=showClients">Show clients</a><br/>
+                                    <a href="pharmacy?command=viewRegister">
+                                        <fmt:message key="button.add.employee"/>
+                                    </a><br/>
+                                    <a href="pharmacy?command=viewEmployees">
+                                        <fmt:message key="button.edit.employees"/>
+                                    </a><br/>
+                                    <a href="pharmacy?command=viewClients">
+                                        <fmt:message key="button.edit.clients"/>
+                                    </a><br/>
                                 </c:if>
                                 <c:if test="${sessionScope.user_role_id==2}">
-                                    <a href="pharmacy?command=createPrescription">New prescription</a><br/>
-                                    <a href="pharmacy?command=viewProfile&requests=true">Show renew requests</a><br/>
+                                    <a href="pharmacy?command=viewPrescription">
+                                        <fmt:message key="button.prescription"/>
+                                    </a><br/>
+                                    <a href="pharmacy?command=viewProfile&requests=true">
+                                        <fmt:message key="button.show.requests"/>
+                                    </a><br/>
                                 </c:if>
                                 <c:if test="${sessionScope.user_role_id==3}">
-                                    <a href="pharmacy?command=rechargeBalance">Recharge the balance</a><br/>
-                                    <a href="pharmacy?command=userOrders">Open orders</a><br/>
-                                    <a href="pharmacy?command=viewProfile&prescriptions=true">Show
-                                        prescriptions</a><br/>
+                                    <a href="pharmacy?command=viewRechargePage">
+                                        <fmt:message key="button.balance"/>
+                                    </a><br/>
+                                    <a href="pharmacy?command=viewUserOrders">
+                                        <fmt:message key="button.show.user.orders"/>
+                                    </a><br/>
+                                    <a href="pharmacy?command=viewProfile&prescriptions=true">
+                                        <fmt:message key="button.show.user.prescriptions"/>
+                                    </a><br/>
                                 </c:if>
                                 <c:if test="${sessionScope.user_role_id==4}">
-                                    <a href="pharmacy?command=editCatalog">Edit catalog</a><br/>
-                                    <a href="pharmacy?command=showCatalog">Show doctors</a><br/>
+                                    <a href="pharmacy?command=viewMedicine">
+                                        <fmt:message key="button.show.medicine"/>
+                                    </a><br/>
+                                    <a href="pharmacy?command=viewEmployees">
+                                        <fmt:message key="button.edit.employees"/>
+                                    </a><br/>
                                 </c:if>
                             </div>
+                            <c:if test="${requestScope.found==false}">
+                                <div>
+                                    <p style="text-align: center; clear:both"><fmt:message key="client.prescriptions.empty"/></p>
+                                </div>
+                            </c:if>
                             <c:if test="${requestScope.containsValue(prescriptions)}">
                                 <br/><br/>
                                 <table style="margin-left: 50px">
                                     <tr>
                                         <th>№</th>
-                                        <th>Medicine</th>
-                                        <th>Validity</th>
-                                        <th colspan="2">Doctor</th>
+                                        <th><fmt:message key="medicine"/></th>
+                                        <th><fmt:message key="prescription.validity"/></th>
+                                        <th colspan="2"><fmt:message key="user.role.doctor"/></th>
                                     </tr>
                                     <c:forEach var="prescription" items="${prescriptions}" varStatus="status">
                                         <tr>
                                             <td><c:out value="${prescription.getId()}"/></td>
-                                            <c:set var="medicine" value="${medicines.get(status.index)}"/>
-                                            <td><c:out value="${medicine.getName()}"/>
-                                                <c:out value="${medicine.getDosage()}"/></td>
+                                            <c:set var="medicine" value="${medicine_list.get(status.index)}"/>
+                                            <td><c:out value="${medicine.name}"/>
+                                                <c:out value="${medicine.dosage}"/></td>
                                             <td><c:out value="${prescription.getValidity()}"/></td>
                                             <c:set var="doctor" value="${doctors.get(status.index)}"/>
-                                            <td><c:out value="${doctor.getName()}"/></td>
-                                            <td><c:out value="${doctor.getSurname()}"/></td>
+                                            <td><c:out value="${doctor.name}"/></td>
+                                            <td><c:out value="${doctor.surname}"/></td>
                                             <td>
                                                 <a href="pharmacy?command=viewProfile&prescriptions=true&prescription_id=${prescription.getId()}#renewRequest">
-                                                    Renew request</a>
+                                                    <fmt:message key="request"/></a>
                                             </td>
                                         </tr>
 
@@ -94,12 +127,12 @@
                                                 <form>
                                                     <input type="hidden" name="command" value="renewRequest"/>
                                                     <c:set var="prescription_id" value="${prescription_id}"/>
-                                                    <h2>Do you want to send renew request for prescription
+                                                    <h2><fmt:message key="profile.request.title"/>
                                                         №${prescription_id}? </h2>
                                                     <input type="hidden" name="prescription_id"
                                                            value="${prescription_id}"/>
-                                                    <input class="win_button" type="submit" value="Send request"/>
-                                                    <a href="#" class="win_button">Close</a>
+                                                    <input class="win_button" type="submit" value="<fmt:message key="button.send"/>"/>
+                                                    <a href="#" class="win_button"><fmt:message key="button.close"/></a>
                                                 </form>
                                             </div>
                                         </div>
@@ -110,9 +143,9 @@
                                         <div id="success">
                                             <div class="window">
                                                 <br/>
-                                                <h2>Request was send successfully.</h2>
+                                                <h2><fmt:message key="profile.success.title"/></h2>
                                                 <br/>
-                                                <a href="#" class="win_button">OK</a>
+                                                <a href="#" class="win_button"><fmt:message key="button.close"/></a>
                                             </div>
                                         </div>
                                         <c:set var="failure" value="false"/>
@@ -122,9 +155,9 @@
                                         <div id="failure">
                                             <div class="window">
                                                 <br/>
-                                                <h2>Operation failed</h2>
+                                                <h2><fmt:message key="failure.title"/></h2>
                                                 <br/>
-                                                <a href="#" class="win_button">OK</a>
+                                                <a href="#" class="win_button"><fmt:message key="button.close"/></a>
                                             </div>
                                         </div>
                                     </c:forEach>
@@ -136,26 +169,27 @@
                                 <table style="margin-left: 50px">
                                     <tr>
                                         <th>№</th>
-                                        <th colspan="2">Client</th>
-                                        <th>Medicine</th>
-                                        <th>Validity</th>
+                                        <th colspan="2"><fmt:message key="user.role.client"/></th>
+                                        <th><fmt:message key="medicine"/></th>
+                                        <th><fmt:message key="prescription.validity"/></th>
                                     </tr>
                                     <c:forEach var="request" items="${requests}" varStatus="status">
                                         <tr>
                                             <td><c:out value="${request.getId()}"/></td>
                                             <c:set var="client" value="${clients.get(status.index)}"/>
-                                            <td><c:out value="${client.getName()}"/></td>
-                                            <td><c:out value="${client.getSurname()}"/></td>
-                                            <c:set var="medicine" value="${medicines.get(status.index)}"/>
-                                            <td><c:out value="${medicine.getName()}"/>
-                                                <c:out value="${medicine.getDosage()}"/></td>
+                                            <td><c:out value="${client.name}"/></td>
+                                            <td><c:out value="${client.surname}"/></td>
+                                            <c:set var="medicine" value="${medicine_list.get(status.index)}"/>
+                                            <td><c:out value="${medicine.name}"/>
+                                                <c:out value="${medicine.dosage}"/></td>
                                             <c:set var="prescription" value="${doctorPrescriptions.get(status.index)}"/>
                                             <td><c:out value="${prescription.getValidity()}"/></td>
                                             <td>
                                                 <span style="display: flex">
                                                     <a href="pharmacy?command=viewProfile&requests=true&request_id=${request.getId()}&decision=Accept#confirmation"
-                                                       style="margin-right: 5px">Accept</a>
-                                                    <a href="pharmacy?command=viewProfile&requests=true&request_id=${request.getId()}&decision=Reject#confirmation">Reject</a>
+                                                       style="margin-right: 5px"><fmt:message key="button.Accept"/></a>
+                                                    <a href="pharmacy?command=viewProfile&requests=true&request_id=${request.getId()}&decision=Reject#confirmation">
+                                                        <fmt:message key="button.Reject"/></a>
                                                 </span>
                                             </td>
                                         </tr>
@@ -163,30 +197,38 @@
                                         <div id="confirmation">
                                             <div class="window">
                                                 <form method="POST" action="pharmacy">
-                                                    <h2>Please, confirm your actions</h2>
+                                                    <h2><fmt:message key="confirmation.title"/></h2>
                                                     <c:set var="request_id" value="${request_id}"/>
                                                     <c:set var="decision" value="${decision}"/>
-                                                    <p>${decision} renew request № ${request_id}?</p>
+                                                    <p><fmt:message key="button.${decision}"/> <fmt:message key="profile.confirmation.text"/> ${request_id}?</p>
                                                     <input type="hidden" name="decision" value="${decision}">
                                                     <input type="hidden" name="request_id" value="${request_id}">
                                                     <input type="hidden" name="command" value="processRequest"/>
-                                                    <input class="win_button" type="submit" value="Yes"/>
-                                                    <a href="#" class="win_button">No</a>
+                                                    <input class="win_button" type="submit" value="<fmt:message key="button.yes"/>"/>
+                                                    <a href="#" class="win_button"><fmt:message key="button.no"/></a>
                                                 </form>
                                             </div>
                                         </div>
                                     </c:forEach>
                                 </table>
                             </c:if>
+                            <div id="ok">
+                                <div class="window">
+                                    <br/>
+                                    <h2><fmt:message key="profile.new.employee.ok"/></h2>
+                                    <br/>
+                                    <a href="#" class="win_button"><fmt:message key="button.close"/></a>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <jsp:include page="element/menu.jsp"/>
+                <%@include file="element/menu.jspf"%>
                 <div class="clr"></div>
             </div>
         </div>
     </div>
-    <jsp:include page="element/footer.jsp"/>
+    <%@include file="element/footer.jspf"%>
 </div>
 </body>
 </html>

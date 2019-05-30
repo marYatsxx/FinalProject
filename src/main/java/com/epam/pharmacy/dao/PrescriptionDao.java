@@ -10,6 +10,7 @@ public interface PrescriptionDao extends Dao<Prescription> {
     List<Prescription> findPrescriptionByClientId(int id) throws DaoException;
     Optional<Prescription> findPrescriptionByClientAndMedicine(int clientId, int medicineId) throws DaoException;
     List<Prescription> findPrescriptionByDoctorId(int id) throws DaoException;
+    List<Prescription> findPrescriptionByMedicineId(int id) throws DaoException;
     List<Prescription> findValidPrescriptions() throws DaoException;
     List<Prescription> findInvalidPrescriptions() throws DaoException;
 }

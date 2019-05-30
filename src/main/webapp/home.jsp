@@ -1,9 +1,13 @@
 <%@ page contentType="text/html" pageEncoding="utf-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+<fmt:setLocale value="${language}" scope="session"/>
+<fmt:setBundle basename="locale"/>
+
 <html>
 <head>
-<title>Online-Pharmacy</title>
+<title><fmt:message key="site.title"/> </title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 </head>
 <style>
@@ -12,28 +16,28 @@
 <body>
 <div class="main">
 	<div class="wrap">
-	<jsp:include page="view/jsp/element/header.jsp"/>
+		<%@include file="view/jsp/element/header.jspf"%>
 	<div class="content">
 		<div class="content_resize">
 			<div class="mainbar">
 				<div class="article">
 					<c:if test="${empty sessionScope.user}">
-						<h1>Welcome to our online-pharmacy!</h1>
+						<h1><fmt:message key="homepage.welcome"/> </h1>
 					</c:if>
 					<c:if test="${not empty sessionScope.user}">
-						<h1>Welcome, <c:out value="${sessionScope.user.getName()}
+						<h1><fmt:message key="homepage.user.welcome"/> <c:out value="${sessionScope.user.getName()}
 						${sessionScope.user.getSurname()}"/></h1>
 					</c:if>
 					<hr/>
-					<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. Cras id urna. <a href="#">Morbi tincidunt, orci ac convallis aliquam, lectus turpis varius lorem, eu posuere nunc justo tempus leo.</a> Donec mattis, purus nec placerat bibendum, dui pede condimentum odio, ac blandit ante orci ut diam. Cras fringilla magna. Phasellus suscipit, leo a pharetra condimentum, lorem tellus eleifend magna, eget fringilla velit magna id neque. Curabitur vel urna. In tristique orci porttitor ipsum. Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Donec libero. Suspendisse bibendum. Cras id urna. Morbi tincidunt, orci ac convallis aliquam.</p>
-				</div>
+					<p><fmt:message key="home.text"/></p>
+					</div>
 			</div>
-			<jsp:include page="view/jsp/element/menu.jsp"/>
+			<%@include file="view/jsp/element/menu.jspf"%>
 			<div class="clr"></div>
 		</div>
 	</div>
 	</div>
-	<jsp:include page="view/jsp/element/footer.jsp"/>
+	<%@include file="view/jsp/element/footer.jspf"%>
 </div>
 </body>
 </html>

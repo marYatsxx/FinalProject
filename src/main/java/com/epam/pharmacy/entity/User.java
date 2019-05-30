@@ -11,6 +11,7 @@ public class User implements Identifiable {
     public static final String LOGIN = "login";
     public static final String PASSWORD = "password";
     public static final String USER_ROLE_ID = "user_role_id";
+    public static final String BLOCKED = "blocked";
 
     public static final int CLIENT_ID = 3;
 
@@ -20,22 +21,25 @@ public class User implements Identifiable {
     private String login;
     private String password;
     private UserRole role;
+    private boolean blocked;
 
-    public User(Integer id, String login, String password, String name, String surname, UserRole role) {
+    public User(Integer id, String login, String password, String name, String surname, UserRole role, boolean blocked) {
         this.id = id;
         this.login = login;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.role = role;
+        this.blocked = blocked;
     }
 
-    public User(String login, String password, String name, String surname, UserRole role) {
+    public User(String login, String password, String name, String surname, UserRole role, boolean blocked) {
         this.login = login;
         this.password = password;
         this.name = name;
         this.surname = surname;
         this.role = role;
+        this.blocked = blocked;
     }
 
     @Override
@@ -67,6 +71,34 @@ public class User implements Identifiable {
         return role;
     }
 
+    public boolean isBlocked() {
+        return blocked;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setRole(UserRole role) {
+        this.role = role;
+    }
+
+    public void setBlocked(boolean blocked) {
+        this.blocked = blocked;
+    }
+
     public int getUserRoleId() {
         switch (role){
             case ADMIN: return 1;
@@ -81,7 +113,8 @@ public class User implements Identifiable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) &&
+        return blocked == user.blocked &&
+                Objects.equals(id, user.id) &&
                 Objects.equals(name, user.name) &&
                 Objects.equals(surname, user.surname) &&
                 Objects.equals(login, user.login) &&
@@ -91,7 +124,7 @@ public class User implements Identifiable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname, login, password, role);
+        return Objects.hash(id, name, surname, login, password, role, blocked);
     }
 
     @Override
@@ -103,6 +136,7 @@ public class User implements Identifiable {
                 ", login='" + login + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", blocked=" + blocked +
                 '}';
     }
 }

@@ -45,8 +45,28 @@ public class Medicine implements Identifiable {
         return price;
     }
 
-    public boolean needsPrescription() {
+    public boolean isNeedsPrescription() {
         return needsPrescription;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDosage(String dosage) {
+        this.dosage = dosage;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
+    }
+
+    public void setNeedsPrescription(boolean needsPrescription) {
+        this.needsPrescription = needsPrescription;
     }
 
     @Override
@@ -78,7 +98,7 @@ public class Medicine implements Identifiable {
                 ", name='" + name + '\'' +
                 ", dosage=" + dosage +
                 ", price=" + price +
-                ", needsPrescription=" + needsPrescription +
+                ", isNeedsPrescription=" + needsPrescription +
                 '}';
     }
 }

@@ -20,6 +20,7 @@ public class RequestDaoImpl extends AbstractDao<Request> implements RequestDao {
     private static final String CREATE_REQUEST = "INSERT INTO request VALUES(default, ?, ?);";
     private static final String REMOVE_REQUEST_BY_ID = "DELETE FROM request WHERE request_id = ?;";
     private static final String FIND_REQUEST_BY_ID = "SELECT * FROM request WHERE request_id = ?;";
+    private static final String FIND_REQUEST_BY_PRESCRIPTION_ID = "SELECT * FROM request WHERE prescription_id = ?;";
     private static final String FIND_ACCEPTED_REQUESTS = "SELECT * FROM request WHERE status=\"accepted\";";
     private static final String FIND_REJECTED_REQUESTS = "SELECT * FROM request WHERE status=\"rejected\";";
     private static final String FIND_CONSIDERED_REQUESTS = "SELECT * FROM request WHERE status=\"under_consideration\";";
@@ -31,6 +32,11 @@ public class RequestDaoImpl extends AbstractDao<Request> implements RequestDao {
     @Override
     public Optional<Request> findById(int id) throws DaoException {
         return executeQueryForSingleResult(FIND_REQUEST_BY_ID, id);
+    }
+
+    @Override
+    public List<Request> findByPrescriptionId(int id) throws DaoException {
+        return executeQuery(FIND_REQUEST_BY_PRESCRIPTION_ID, id);
     }
 
     @Override

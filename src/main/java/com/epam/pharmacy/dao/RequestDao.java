@@ -8,4 +8,5 @@ public interface RequestDao extends Dao<Request> {
     List<Request> findRejectedRequests() throws DaoException;
     List<Request> findAcceptedRequests() throws DaoException;
     List<Request> findConsideredRequests() throws DaoException;
+    List<Request> findByPrescriptionId(int id) throws DaoException;
 }
